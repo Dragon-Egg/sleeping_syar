@@ -14,7 +14,6 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -61,6 +60,7 @@ public class NetUtil {
         Uri.Builder builder = uri.buildUpon();
         switch (host) {
             case "twitpic.com":
+                break;
             case "img.ly":
                 builder.authority(host);
                 builder.path("show/full".concat(uri.getPath()));
@@ -102,15 +102,20 @@ public class NetUtil {
         String path = uri.getPath();
         if (TextUtils.isEmpty(path)) return false;
         switch (uri.getHost()) {
-            case "twitpic.com":
-            case "img.ly":
-            case "gyazo.com":
-            case "p.twipple.jp":
+            /*
+            case "twitpic.com": //正常動作しなかった(画像が表示できない…)ので応急処置でコメントアウト 原因不明 (サービス終了)
+            case "img.ly": //サービス終了
+            case "gyazo.com": //正常動作しなかった(画像が複数表示されたり…)ので応急処置でコメントアウト HTTPSアクセスなら動くかも…
+            case "p.twipple.jp": //サービス終了
                 return true;
+            */
+
+            /* //Instagramの画像URL仕様変更により、正常動作しなかったので応急処置でコメントアウト
             case "www.instagram.com":
             case "instagr.am":
                 List<String> segments = uri.getPathSegments();
                 return segments.get(0).equals("p");
+            */
             default:
                 return false;
         }
