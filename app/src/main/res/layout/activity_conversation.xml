@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:id="@+id/fragment"
-        android:name="org.dragonegg.ofuton.conversation.ConversationFragment"
+        android:name="com.crakac.ofuton.conversation.ConversationFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true" />

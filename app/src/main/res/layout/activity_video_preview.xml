@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:theme="@style/AppTheme"
     android:background="@android:color/black"
-    tools:context="org.dragonegg.ofuton.activity.VideoPreviewActivity">
+    tools:context="com.crakac.ofuton.activity.VideoPreviewActivity">
 
     <ImageView
         android:layout_width="match_parent"

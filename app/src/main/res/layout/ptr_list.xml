@@ -7,7 +7,7 @@
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <org.dragonegg.ofuton.widget.ListViewEx
+        <com.crakac.ofuton.widget.ListViewEx
             android:id="@+id/listView1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -18,7 +18,7 @@
             />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <org.dragonegg.ofuton.widget.ProgressTextView
+    <com.crakac.ofuton.widget.ProgressTextView
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

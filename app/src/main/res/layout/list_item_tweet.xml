@@ -99,7 +99,7 @@
             app:srcCompat="@drawable/ic_fav" />
     </RelativeLayout>
 
-    <org.dragonegg.ofuton.widget.MultipleImagePreview
+    <com.crakac.ofuton.widget.MultipleImagePreview
         android:id="@+id/inline_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

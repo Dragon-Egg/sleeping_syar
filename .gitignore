@@ -1,7 +1,6 @@
 /.gradle/
 /local.properties
 *.iml
-*.BAK
 .DS_Store
 /build
 gradle.properties
