@@ -57,7 +57,7 @@
 
         <fragment
             android:id="@+id/quick_tweet"
-            android:name="com.crakac.ofuton.fragment.TweetFragment"
+            android:name="org.dragonegg.ofuton.fragment.TweetFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
