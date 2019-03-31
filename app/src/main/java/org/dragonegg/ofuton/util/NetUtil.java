@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class NetUtil {
     private NetUtil() {
     }
@@ -24,10 +26,10 @@ public class NetUtil {
     synchronized private static String expandUrl(String urlString) throws IOException {
         URL url = new URL(urlString);
         final URLConnection conn = url.openConnection();
-        if (!(conn instanceof HttpURLConnection)) {
+        if (!(conn instanceof HttpsURLConnection)) {
             return url.toString();
         }
-        final HttpURLConnection httpConn = (HttpURLConnection) conn;
+        final HttpURLConnection httpConn = (HttpsURLConnection) conn;
         httpConn.setRequestMethod("HEAD");
         httpConn.setInstanceFollowRedirects(false);
         httpConn.connect();
