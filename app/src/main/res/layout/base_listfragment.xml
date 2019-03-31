@@ -10,7 +10,7 @@
         android:divider="@color/dark_gray"
         android:dividerHeight="@dimen/divider_height" />
 
-    <com.crakac.ofuton.widget.ProgressTextView
+    <org.dragonegg.ofuton.widget.ProgressTextView
         android:id="@+id/emptyView"
         android:visibility="invisible"
         android:layout_width="match_parent"
