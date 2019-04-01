@@ -4,7 +4,7 @@
 <network-security-config>
     <base-config cleartextTrafficPermitted="false" />
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">pbs.twimg.com/</domain>
+        <domain includeSubdomains="true">pbs.twimg.com</domain>
     </domain-config>
 
 </network-security-config>
