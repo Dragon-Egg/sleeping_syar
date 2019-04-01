@@ -14,7 +14,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/syar"
         android:largeHeap="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:networkSecurityConfig="@xml/network_security_config">
+
         <receiver
             android:name=".SyarWidget"
             android:label="SyarWidget">
@@ -125,43 +127,45 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity
+           <activity
             android:name=".activity.ImagePreviewActivity"
             android:exported="true"
             android:multiprocess="true"
             android:theme="@style/Theme.MyTrans">
             <intent-filter android:label="@string/preview">
-                <action android:name="android.intent.action.VIEW" />
+               <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+               <category android:name="android.intent.category.DEFAULT" />
+        <!--   NetUtil無力化に伴う不用意な展開防止
+                   <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="twitpic.com"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-                <data
-                    android:host="img.ly"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-                <data
-                    android:host="gyazo.com"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-                <data
-                    android:host="p.twipple.jp"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-                <data
-                    android:host="www.instagram.com"
-                    android:pathPrefix="/p/"
-                    android:scheme="https" />
-                <data
-                    android:host="instagr.am"
-                    android:pathPrefix="/p/"
-                    android:scheme="http" />
-            </intent-filter>
-        </activity>
+                   <data
+                       android:host="twitpic.com"
+                       android:pathPrefix="/"
+                       android:scheme="http" />
+                   <data
+                       android:host="img.ly"
+                       android:pathPrefix="/"
+                       android:scheme="http" />
+                   <data
+                       android:host="gyazo.com"
+                       android:pathPrefix="/"
+                       android:scheme="http" />
+                   <data
+                       android:host="p.twipple.jp"
+                       android:pathPrefix="/"
+                       android:scheme="http" />
+                   <data
+                       android:host="www.instagram.com"
+                       android:pathPrefix="/p/"
+                       android:scheme="https" />
+                   <data
+                       android:host="instagr.am"
+                       android:pathPrefix="/p/"
+                       android:scheme="http" />
+            -->
+                </intent-filter>
+               </activity>
         <activity
             android:name=".activity.ConversationActivity"
             android:label="@string/activity_conversation" />
