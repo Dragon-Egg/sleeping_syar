@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.akaita.android.easylauncher'
 
 android {
     compileOptions {
@@ -71,4 +72,29 @@ static def getProps(String key) {
     Properties props = new Properties()
     props.load(new FileInputStream(new File(key)))
     return props
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.akaita.android:easylauncher:1.3.1'
+    }
+}
+easylauncher {
+    // "manifest application[android:icon]" is automatically added to the list
+    iconNames "@mipmap/ic_launcher_foreground" // Traditional launcher icon
+    foregroundIconNames "@mipmap/ic_launcher_foreground" // Foreground of adaptive launcher icon
+
+    defaultFlavorNaming = true // Use flavor name for default ribbon, instead of the type name
+
+    buildTypes {
+        debug {
+            filters = grayRibbonFilter()
+        }
+        release {
+            filters = greenRibbonFilter("D-Egg")
+        }
+    }
 }
