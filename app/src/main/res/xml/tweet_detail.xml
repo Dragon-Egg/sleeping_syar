@@ -33,6 +33,10 @@
             android:defaultValue="true"
             android:key="@string/show_hashtag"
             android:title="@string/show_hashtag" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/show_link_copy"
+            android:title="@string/show_link_copy" />
     </PreferenceCategory>
 
 </PreferenceScreen>
