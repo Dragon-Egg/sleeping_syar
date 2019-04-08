@@ -24,6 +24,7 @@ import org.dragonegg.ofuton.action.ClickActionAdapter;
 import org.dragonegg.ofuton.action.status.CancelRetweetAction;
 import org.dragonegg.ofuton.action.status.ClickAction;
 import org.dragonegg.ofuton.action.status.ConversationAction;
+import org.dragonegg.ofuton.action.status.CopyLinkAction;
 import org.dragonegg.ofuton.action.status.DestroyStatusAction;
 import org.dragonegg.ofuton.action.status.FavAction;
 import org.dragonegg.ofuton.action.status.FavAndRetweeAction;
@@ -231,6 +232,11 @@ public class StatusDialogFragment extends DialogFragment {
 
         if(PrefUtil.getBoolean(R.string.show_hashtag, true)){
             setHashtagEntities(mSelectedStatus);
+        }
+
+        // URLコピー
+        if (PrefUtil.getBoolean(R.string.show_link_copy, true)) {
+            mActionAdapter.add(new CopyLinkAction(getContext(), mSelectedStatus));
         }
 
         mActionAdapter.notifyDataSetChanged();

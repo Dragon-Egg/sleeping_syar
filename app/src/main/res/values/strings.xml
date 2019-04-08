@@ -129,6 +129,7 @@
     <string name="show_fav_and_retweet">お気に入りしてリツイート</string>
     <string name="show_accounts_in_tweet">言及されているユーザー</string>
     <string name="show_hashtag">ハッシュタグ</string>
+    <string name="show_link_copy">URLをコピーする</string>
 
     <string name="sending_tweet">ツイート送信中</string>
     <string name="complete">完了</string>
@@ -144,6 +145,8 @@
     <string name="show_source">ソースを表示する</string>
     <string name="download">ダウンロード</string>
     <string name="complete_download">ダウンロードが完了しました</string>
+
+    <string name="link_copied">URLをコピーしました</string>
 
     <string name="tofubuster_package">com.product.kanzmrsw.tofubuster</string>
 </resources>
