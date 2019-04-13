@@ -60,7 +60,7 @@ public class TweetActivity extends FinishableActionbarActivity implements View.O
     private static final int EXTERNAL_STORAGE_PERMISSION_REQUEST = 11;
     private static final int CAMERA_PERMISSION_REQUEST = 12;
 
-    private static final int MAX_TWEET_LENGTH = 140;
+    private static final int MAX_TWEET_LENGTH = 280;
     private static final String IMAGE_URI = "IMAGE_URI";
     private static final int MAX_APPEND_FILES = 4;
 
