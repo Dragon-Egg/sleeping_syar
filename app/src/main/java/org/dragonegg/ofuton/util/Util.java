@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import twitter4j.MediaEntity;
@@ -92,7 +93,7 @@ public class Util {
         TwitterAPIConfiguration conf = TwitterUtils.getApiConfiguration();
         text = text.replaceAll(MATCH_URL_HTTP, Util.blanks(conf.getShortURLLength()));
         text = text.replaceAll(MATCH_URL_HTTPS, Util.blanks(conf.getShortURLLengthHttps()));
-        return text.length();
+        return text.getBytes(Charset.forName("Shift_JIS")).length;
     }
 
     public static boolean checkRuntimePermission(Activity activity, String permission, int requestId) {

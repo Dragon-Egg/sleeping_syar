@@ -58,7 +58,7 @@ public class TweetFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = TweetFragment.class.getSimpleName();
 
     private static final int SELECT_PICTURE = 1;
-    private static final int MAX_TWEET_LENGTH = 140;
+    private static final int MAX_TWEET_LENGTH = 280;
     private static final int MAX_APPEND_PICTURE_EDGE_LENGTH = 1920;
     private static final String IMAGE_URI = "IMAGE_URI";
 
