@@ -8,13 +8,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.VideoView;
+
+import com.github.ogapants.playercontrolview.PlayerControlView;
 
 import org.dragonegg.ofuton.C;
 import org.dragonegg.ofuton.R;
@@ -44,7 +46,15 @@ public class VideoPreviewActivity extends Activity {
         for(MediaEntity.Variant v : mEntity.getVideoVariants()){
             if(v.getContentType().contains("mp4")){
                 mVideoView.setVideoURI(Uri.parse(v.getUrl()));
-                mVideoView.setMediaController(new MediaController(this));
+                mVideoView.setMediaController(new PlayerControlView(this) {
+                    @Override
+                    public boolean dispatchKeyEvent(KeyEvent event) {
+                        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+                            finish();
+                        }
+                        return super.dispatchKeyEvent(event);
+                    }
+                }.getMediaControllerWrapper());
                 mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mp) {

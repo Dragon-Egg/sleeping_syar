@@ -199,7 +199,8 @@
             android:label="License" />
         <activity
             android:name=".activity.VideoPreviewActivity"
-            android:label="@string/activity_video_preview" />
+            android:label="@string/activity_video_preview"
+            android:configChanges="keyboardHidden|screenSize|orientation"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
