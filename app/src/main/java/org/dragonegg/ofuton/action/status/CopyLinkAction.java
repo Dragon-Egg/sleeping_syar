@@ -20,7 +20,18 @@ public class CopyLinkAction extends ClickAction {
 		if (clipboardManager == null) {
 			return;
 		}
-		String url = "https://twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId();
+		String screenName;
+		long tweetId;
+		// リツイートかどうか
+		if (status.getRetweetedStatus() != null) {
+			twitter4j.Status retweetedStatus = status.getRetweetedStatus();
+			screenName = retweetedStatus.getUser().getScreenName();
+			tweetId = retweetedStatus.getId();
+		} else {
+			screenName = status.getUser().getScreenName();
+			tweetId = status.getId();
+		}
+		String url = "https://twitter.com/" + screenName + "/status/" + tweetId;
 		clipboardManager.setPrimaryClip(ClipData.newPlainText("", url));
         AppUtil.showToast(mContext.getString(R.string.link_copied));
 	}
