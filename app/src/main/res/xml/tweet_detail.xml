@@ -37,6 +37,10 @@
             android:defaultValue="true"
             android:key="@string/show_link_copy"
             android:title="@string/show_link_copy" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/open_twitter_app"
+            android:title="@string/open_twitter_app" />
     </PreferenceCategory>
 
 </PreferenceScreen>

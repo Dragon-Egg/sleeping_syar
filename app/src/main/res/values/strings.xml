@@ -147,6 +147,8 @@
     <string name="complete_download">ダウンロードが完了しました</string>
 
     <string name="link_copied">URLをコピーしました</string>
+    <string name="open_twitter_app">Twitter Appで開く</string>
+    <string name="no_twitter_app">Twitter Appがありません</string>
 
     <string name="tofubuster_package">com.product.kanzmrsw.tofubuster</string>
 </resources>
