@@ -6,6 +6,7 @@ import android.os.Handler;
 import org.dragonegg.ofuton.R;
 import org.dragonegg.ofuton.adapter.TweetStatusAdapter;
 import org.dragonegg.ofuton.util.AppUtil;
+import org.dragonegg.ofuton.util.PrefUtil;
 import org.dragonegg.ofuton.util.TwitterUtils;
 
 import twitter4j.Status;
@@ -20,7 +21,7 @@ public class FavAndRetweeAction extends ClickAction {
     private final Status selectedStatus;
 
     public FavAndRetweeAction(Context context, Status status) {
-        super(context, R.string.fav_and_retweet, R.drawable.ic_fav_and_retweet);
+        super(context, R.string.fav_and_retweet, (PrefUtil.getBoolean(R.string.remember_star, false)) ? R.drawable.ic_star_and_retweet : R.drawable.ic_fav_and_retweet);
         selectedStatus = status;
     }
 

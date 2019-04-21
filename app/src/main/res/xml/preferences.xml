@@ -102,6 +102,13 @@
             android:key="@string/show_image_in_timeline"
             android:summary="ギガが気になる人はオフにするといいかも"
             android:title="@string/show_image_in_timeline" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/remember_star"
+            android:summary="忘れられない貴方に"
+            android:title="@string/remember_star" />
+
         <PreferenceScreen
             android:key="@string/tweet_detail_setting"
             android:summary="@string/tweet_detail_settings"

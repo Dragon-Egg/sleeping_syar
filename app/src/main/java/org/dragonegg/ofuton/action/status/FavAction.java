@@ -6,6 +6,7 @@ import org.dragonegg.ofuton.R;
 import org.dragonegg.ofuton.adapter.TweetStatusAdapter;
 import org.dragonegg.ofuton.util.AppUtil;
 import org.dragonegg.ofuton.util.ParallelTask;
+import org.dragonegg.ofuton.util.PrefUtil;
 import org.dragonegg.ofuton.util.TwitterUtils;
 
 import twitter4j.Twitter;
@@ -16,15 +17,15 @@ public class FavAction extends ClickAction {
     private twitter4j.Status selectedStatus;
 
     public FavAction(Context context, twitter4j.Status status) {
-        super(context, R.string.favorite, R.drawable.ic_fav);
+        super(context, R.string.favorite, (PrefUtil.getBoolean(R.string.remember_star, false)) ? R.drawable.ic_star : R.drawable.ic_fav);
         mContext = context;
         selectedStatus = status;
         if (selectedStatus.isFavorited()) {
             stringId = R.string.unfavorite;
-            iconId = R.drawable.ic_fav_border;
+            iconId = (PrefUtil.getBoolean(R.string.remember_star, false)) ? R.drawable.ic_star_border : R.drawable.ic_fav_border;
         } else {
             stringId = R.string.favorite;
-            iconId = R.drawable.ic_fav;
+            iconId = (PrefUtil.getBoolean(R.string.remember_star, false)) ? R.drawable.ic_star : R.drawable.ic_fav;
         }
     }
 

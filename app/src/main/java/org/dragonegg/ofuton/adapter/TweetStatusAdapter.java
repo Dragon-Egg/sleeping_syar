@@ -348,9 +348,9 @@ public class TweetStatusAdapter extends BaseAdapter {
     private static void setIcons(ImageView icon, Status item) {
         icon.setVisibility(View.VISIBLE);
         if (item.isFavorited() && item.isRetweeted()) {
-            icon.setImageResource(R.drawable.ic_fav_and_retweet);
+            icon.setImageResource((PrefUtil.getBoolean(R.string.remember_star, false)) ? R.drawable.ic_star_and_retweet : R.drawable.ic_fav_and_retweet);
         } else if (item.isFavorited()) {
-            icon.setImageResource(R.drawable.ic_fav);
+            icon.setImageResource((PrefUtil.getBoolean(R.string.remember_star, false)) ? R.drawable.ic_star : R.drawable.ic_fav);
         } else if (item.isRetweeted()) {
             icon.setImageResource(R.drawable.ic_repeat);
         } else {
