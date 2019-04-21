@@ -29,6 +29,7 @@ import org.dragonegg.ofuton.action.status.DestroyStatusAction;
 import org.dragonegg.ofuton.action.status.FavAction;
 import org.dragonegg.ofuton.action.status.FavAndRetweeAction;
 import org.dragonegg.ofuton.action.status.HashtagAction;
+import org.dragonegg.ofuton.action.status.HashtagSearchAction;
 import org.dragonegg.ofuton.action.status.LinkAction;
 import org.dragonegg.ofuton.action.status.MediaAction;
 import org.dragonegg.ofuton.action.status.OpenTwitterAction;
@@ -233,6 +234,7 @@ public class StatusDialogFragment extends DialogFragment {
 
         if(PrefUtil.getBoolean(R.string.show_hashtag, true)){
             setHashtagEntities(mSelectedStatus);
+            setHashtagSearchEntities(mSelectedStatus);
         }
 
         // URLコピー
@@ -330,6 +332,19 @@ public class StatusDialogFragment extends DialogFragment {
         }
         for (HashtagEntity hashtag : hashtags) {
             mActionAdapter.add(new HashtagAction(getActivity(), hashtag
+                    .getText()));
+        }
+    }
+
+    private void setHashtagSearchEntities(Status status) {
+        HashtagEntity[] hashtags;
+        if (status.isRetweet()) {
+            hashtags = status.getRetweetedStatus().getHashtagEntities();
+        } else {
+            hashtags = status.getHashtagEntities();
+        }
+        for (HashtagEntity hashtag : hashtags) {
+            mActionAdapter.add(new HashtagSearchAction(getActivity(), hashtag
                     .getText()));
         }
     }
