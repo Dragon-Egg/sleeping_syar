@@ -23,7 +23,7 @@ public class CopyLinkAction extends ClickAction {
 		String screenName;
 		long tweetId;
 		// リツイートかどうか
-		if (status.getRetweetedStatus() != null) {
+		if (status.isRetweet()) {
 			twitter4j.Status retweetedStatus = status.getRetweetedStatus();
 			screenName = retweetedStatus.getUser().getScreenName();
 			tweetId = retweetedStatus.getId();

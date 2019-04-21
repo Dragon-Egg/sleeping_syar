@@ -19,7 +19,7 @@ public class OpenTwitterAction extends ClickAction {
         Intent intent = null;
         long tweetId = 0;
 
-        if (status.getRetweetedStatus() != null) {
+        if (status.isRetweet()) {
             tweetId = status.getRetweetedStatus().getId();
         } else {
             tweetId = status.getId();
