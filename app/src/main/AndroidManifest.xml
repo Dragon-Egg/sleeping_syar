@@ -131,7 +131,8 @@
             android:name=".activity.ImagePreviewActivity"
             android:exported="true"
             android:multiprocess="true"
-            android:theme="@style/Theme.MyTrans">
+            android:theme="@style/Theme.MyTrans"
+            android:configChanges="keyboardHidden|screenSize|orientation">
             <intent-filter android:label="@string/preview">
                <action android:name="android.intent.action.VIEW" />
 
