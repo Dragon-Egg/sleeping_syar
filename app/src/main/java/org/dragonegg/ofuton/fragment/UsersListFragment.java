@@ -174,7 +174,7 @@ public class UsersListFragment extends Fragment{
 				if(lists != null){
 					long userId = TwitterUtils.getCurrentAccountId();//リスト選ぶんだから現在のユーザでおｋ
 					for(UserList list : lists){
-						mAdapter.add(new TwitterList(userId, list.getId(), list.getName(), list.getFullName()));
+						mAdapter.add(new TwitterList(userId, list.getId(), list.getName(), list.getFullName(), list.getUser().getScreenName()));
 					}
 				} else {
 				    mEmptyView.standby();
@@ -210,7 +210,7 @@ public class UsersListFragment extends Fragment{
 				check.setVisibility(View.INVISIBLE);
 			}
 			TextView listName = (TextView) convertView.findViewById(R.id.listName);
-			listName.setText(item.getName());
+			listName.setText(String.format("@%s/%s", item.getCreatorName(), item.getName()));
 			return convertView;
 		}
 	}

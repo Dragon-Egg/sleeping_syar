@@ -5,12 +5,21 @@ public class TwitterList {
 	private long listId;
 	private String name;
 	private String fullName;
-	
+	private String creatorName;
+
 	public TwitterList(long uid, long l, String name, String fname){
 		userId = uid;
 		listId = l;
 		this.name = name;
 		fullName = fname;
+	}
+
+	public TwitterList(long uid, long l, String name, String fname, String cname){
+		userId = uid;
+		listId = l;
+		this.name = name;
+		fullName = fname;
+		creatorName = cname;
 	}
 
 	public long getUserId() {
@@ -29,5 +38,5 @@ public class TwitterList {
 		return fullName;
 	}
 	
-	
+	public String getCreatorName() { return creatorName; }
 }
