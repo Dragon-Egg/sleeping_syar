@@ -128,7 +128,8 @@
     <string name="show_retweet_key">show_rt</string>
     <string name="show_fav_and_retweet">お気に入りしてリツイート</string>
     <string name="show_accounts_in_tweet">言及されているユーザー</string>
-    <string name="show_hashtag">ハッシュタグ</string>
+    <string name="show_hashtag_tweet">ハッシュタグでツイート</string>
+    <string name="show_hashtag_search">ハッシュタグで検索</string>
     <string name="show_link_copy">URLをコピーする</string>
 
     <string name="sending_tweet">ツイート送信中</string>

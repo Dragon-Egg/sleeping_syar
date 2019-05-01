@@ -232,8 +232,11 @@ public class StatusDialogFragment extends DialogFragment {
             setMediaEntities(mSelectedStatus);
         }
 
-        if(PrefUtil.getBoolean(R.string.show_hashtag, true)){
+        if(PrefUtil.getBoolean(R.string.show_hashtag_tweet, true)){
             setHashtagEntities(mSelectedStatus);
+        }
+
+        if(PrefUtil.getBoolean(R.string.show_hashtag_search, true)){
             setHashtagSearchEntities(mSelectedStatus);
         }
 

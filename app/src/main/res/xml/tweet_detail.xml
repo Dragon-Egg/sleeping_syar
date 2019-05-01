@@ -31,8 +31,12 @@
             android:title="@string/show_accounts_in_tweet" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="@string/show_hashtag"
-            android:title="@string/show_hashtag" />
+            android:key="@string/show_hashtag_tweet"
+            android:title="@string/show_hashtag_tweet" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/show_hashtag_search"
+            android:title="@string/show_hashtag_search" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/show_link_copy"
