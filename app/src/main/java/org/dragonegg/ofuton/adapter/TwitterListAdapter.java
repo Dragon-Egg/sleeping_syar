@@ -51,7 +51,7 @@ public class TwitterListAdapter extends ArrayAdapter<TwitterList> {
 		pBar.setVisibility(View.VISIBLE);
 		mExecutor.execute(new ListCheckTask(check, pBar, item));
 		TextView listName = (TextView) convertView.findViewById(R.id.listName);
-		listName.setText(item.getName());
+		listName.setText(String.format("@%s/%s", item.getCreatorName(), item.getName()));
 		return convertView;
 	}
 
