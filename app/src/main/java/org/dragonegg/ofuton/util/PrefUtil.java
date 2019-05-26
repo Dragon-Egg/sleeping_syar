@@ -13,10 +13,12 @@ public class PrefUtil {
 
     private static Context sContext;
     private static String FONT_SIZE_KEY;
+    private static String ICON_SIZE_KEY;
 
     public static void init(Context context){
         sContext = context;
         FONT_SIZE_KEY = sContext.getString(R.string.font_size);
+        ICON_SIZE_KEY = sContext.getString(R.string.icon_size);
 
     }
     public static boolean getBoolean(int resId) {
@@ -62,6 +64,17 @@ public class PrefUtil {
      */
     public static int getFontSize() {
         return Integer.valueOf(getString(FONT_SIZE_KEY, "13"));// ListPreferenceは値をStringで保存すると思われるのでこうする
+    }
+
+    /**
+     * SharedPreferenceからアイコンサイズを読み込む
+     *
+     * @return
+     */
+    public static int getIconSize() {
+        // dpからpxに変換
+        float density = sContext.getResources().getDisplayMetrics().density;
+        return Math.round((float)Integer.valueOf(getString(ICON_SIZE_KEY, "48")) * density);
     }
 
     public static float getLargeFontSize(){

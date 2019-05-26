@@ -40,6 +40,7 @@ public class SettingActivity extends FinishableActionbarActivity {
             addPreferencesFromResource(R.xml.preferences);
             setButtonPpistion();
             setFontSize();
+            setIconSize();
             setDateDisplayMode();
             setInlinePreview();
             displayLicenseInfo();
@@ -91,6 +92,20 @@ public class SettingActivity extends FinishableActionbarActivity {
             fontPref = (ListPreference) findPreference(getString(R.string.font_size));
             fontPref.setSummary(fontPref.getValue());
             fontPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    preference.setSummary((CharSequence) newValue);
+                    ReloadChecker.requestSoftReload(true);
+                    return true;
+                }
+            });
+        }
+
+        private void setIconSize() {
+            ListPreference iconPref;
+            iconPref = (ListPreference) findPreference(getString(R.string.icon_size));
+            iconPref.setSummary(iconPref.getValue());
+            iconPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     preference.setSummary((CharSequence) newValue);

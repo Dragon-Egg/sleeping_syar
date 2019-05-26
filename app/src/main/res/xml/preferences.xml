@@ -79,6 +79,14 @@
             android:title="@string/font_size" />
 
         <ListPreference
+            android:defaultValue="48"
+            android:dialogTitle="@string/icon_size"
+            android:entries="@array/entries_icon_size"
+            android:entryValues="@array/entryvalues_icon_size"
+            android:key="@string/icon_size"
+            android:title="@string/icon_size" />
+
+        <ListPreference
             android:defaultValue="@string/relative"
             android:entries="@array/date_display_modes"
             android:entryValues="@array/date_display_modes"

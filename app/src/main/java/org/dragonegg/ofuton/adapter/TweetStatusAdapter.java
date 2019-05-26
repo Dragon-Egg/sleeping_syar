@@ -174,6 +174,7 @@ public class TweetStatusAdapter extends BaseAdapter {
         // フォントサイズの調整
         int fontSize = PrefUtil.getFontSize();
         float subFontSize = PrefUtil.getSubFontSize();
+        int iconSize = PrefUtil.getIconSize();
         holder.name.setTextSize(fontSize);
         holder.screenName.setTextSize(subFontSize);
         holder.text.setTextSize(fontSize);
@@ -182,6 +183,8 @@ public class TweetStatusAdapter extends BaseAdapter {
         holder.via.setTextSize(subFontSize);
         holder.retweetCount.setTextSize(subFontSize);
         holder.favCount.setTextSize(subFontSize);
+        holder.avatarIcon.getLayoutParams().height = iconSize;
+        holder.avatarIcon.getLayoutParams().width = iconSize;
     }
 
     private static void setBasicInfo(ViewHolder holder, Status status) {
