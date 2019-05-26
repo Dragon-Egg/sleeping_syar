@@ -176,6 +176,24 @@ public class UsersListFragment extends Fragment{
 					for(UserList list : lists){
 						mAdapter.add(new TwitterList(userId, list.getId(), list.getName(), list.getFullName(), list.getUser().getScreenName()));
 					}
+					// リストの存在確認
+					for (Long listId : mCurrentListIdSet) {
+						boolean isAvailableList = false;
+						for (UserList list : lists) {
+							if(list.getId() == listId) {
+								isAvailableList = true;
+								break;
+							}
+						}
+						if (!isAvailableList) {
+							if (!TwitterUtils.removeList(new TwitterList(userId, listId, null, null))) {
+								AppUtil.showToast(R.string.something_wrong);
+							} else {
+								mCurrentListIdSet.remove(listId);
+								ReloadChecker.requestHardReload(true);
+							}
+						}
+					}
 				} else {
 				    mEmptyView.standby();
 				}
