@@ -24,6 +24,7 @@ import org.dragonegg.ofuton.util.TwitterList;
 import org.dragonegg.ofuton.util.TwitterUtils;
 import org.dragonegg.ofuton.widget.ProgressTextView;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -177,7 +178,9 @@ public class UsersListFragment extends Fragment{
 						mAdapter.add(new TwitterList(userId, list.getId(), list.getName(), list.getFullName(), list.getUser().getScreenName()));
 					}
 					// リストの存在確認
-					for (Long listId : mCurrentListIdSet) {
+					Iterator it = mCurrentListIdSet.iterator();
+					while (it.hasNext()) {
+						long listId = (long) it.next();
 						boolean isAvailableList = false;
 						for (UserList list : lists) {
 							if(list.getId() == listId) {
@@ -189,7 +192,7 @@ public class UsersListFragment extends Fragment{
 							if (!TwitterUtils.removeList(new TwitterList(userId, listId, null, null))) {
 								AppUtil.showToast(R.string.something_wrong);
 							} else {
-								mCurrentListIdSet.remove(listId);
+								it.remove();
 								ReloadChecker.requestHardReload(true);
 							}
 						}
