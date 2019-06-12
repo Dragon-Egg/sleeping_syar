@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -66,6 +67,7 @@ public class TweetActivity extends FinishableActionbarActivity implements View.O
 
     private EditText mInputText;
     private ImageView mAppendPicBtn, mCameraBtn, mInfoBtn;// つぶやくボタン，画像追加ボタン，リプライ元情報ボタン
+    private TextView mAtBtn, mHashTagBtn; // @ボタン, #ボタン
     private Button mTweetBtn;
     private Uri mCameraUri;// カメラ画像添付用
     private long mReplyId;// reply先ID
@@ -89,11 +91,13 @@ public class TweetActivity extends FinishableActionbarActivity implements View.O
         mAppendPicBtn = findViewById(R.id.appendPic);// 画像添付ボダン
         mCameraBtn = findViewById(R.id.picFromCamera);// 撮影して添付するボタン
         mInfoBtn = findViewById(R.id.tweetInfoBtn);// リプライ先表示ボタン
+        mAtBtn = findViewById(R.id.appendAt);// @ボタン
+        mHashTagBtn = findViewById(R.id.appendHashTag);// #ボタン
         mAppendedImageRoot = findViewById(R.id.image_attachments_root);
 
         mInputText.setTextSize(PrefUtil.getLargeFontSize());
 
-        for (View clickable : new View[]{mTweetBtn, mAppendPicBtn, mCameraBtn, mInfoBtn}) {
+        for (View clickable : new View[]{mTweetBtn, mAppendPicBtn, mCameraBtn, mInfoBtn, mAtBtn, mHashTagBtn}) {
             clickable.setOnClickListener(this);
         }
 
@@ -360,6 +364,14 @@ public class TweetActivity extends FinishableActionbarActivity implements View.O
 
             case R.id.action_tweet:
                 updateStatus();
+                break;
+
+            case R.id.appendAt:
+                mInputText.append("@");
+                break;
+
+            case R.id.appendHashTag:
+                mInputText.append("#");
                 break;
         }
     }
