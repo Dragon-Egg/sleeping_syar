@@ -56,6 +56,7 @@ public class TweetStatusAdapter extends BaseAdapter {
         TextView retweetCount;
         TextView favCount;
         ImageView favIcon;
+        ImageView retweetIcon;
     }
 
     public void add(Status status) {
@@ -292,6 +293,7 @@ public class TweetStatusAdapter extends BaseAdapter {
         holder.retweetCount = convertView.findViewById(R.id.num_retweet);
         holder.favCount = convertView.findViewById(R.id.num_favorite);
         holder.favIcon = convertView.findViewById(R.id.fav_icon);
+        holder.retweetIcon = convertView.findViewById(R.id.rt_icon);
     }
 
     private static void setRetweetView(ViewHolder holder, Status origStatus) {
@@ -302,7 +304,6 @@ public class TweetStatusAdapter extends BaseAdapter {
             holder.via.setVisibility(View.VISIBLE);
         } else {
             holder.via.setVisibility(View.GONE);
-            return;
         }
         AppUtil.setImage(holder.retweetAvatar, AppUtil.getIconURL(origStatus.getUser()));
         holder.retweetedBy.setText(origStatus.getUser().getName() + " @" + origStatus.getUser().getScreenName());
@@ -313,8 +314,19 @@ public class TweetStatusAdapter extends BaseAdapter {
         }
         holder.via.setText("via " + source);
         // RT, Fav数
-        holder.retweetCount.setText(String.valueOf(status.getRetweetCount()));
-        holder.favCount.setText(String.valueOf(status.getFavoriteCount()));
+        if (PrefUtil.getBoolean(R.string.show_rt_fav_num, true)) {
+            holder.retweetCount.setVisibility(View.VISIBLE);
+            holder.favCount.setVisibility(View.VISIBLE);
+            holder.favIcon.setVisibility(View.VISIBLE);
+            holder.retweetIcon.setVisibility(View.VISIBLE);
+            holder.retweetCount.setText(String.valueOf(status.getRetweetCount()));
+            holder.favCount.setText(String.valueOf(status.getFavoriteCount()));
+        } else {
+            holder.retweetCount.setVisibility(View.GONE);
+            holder.favCount.setVisibility(View.GONE);
+            holder.favIcon.setVisibility(View.GONE);
+            holder.retweetIcon.setVisibility(View.GONE);
+        }
     }
 
     private static void setNormalTweetView(ViewHolder holder, Status status) {
@@ -324,7 +336,6 @@ public class TweetStatusAdapter extends BaseAdapter {
             holder.via.setVisibility(View.VISIBLE);
         } else {
             holder.via.setVisibility(View.GONE);
-            return;
         }
         // via表示
         String source = status.getSource();
@@ -333,8 +344,19 @@ public class TweetStatusAdapter extends BaseAdapter {
         }
         holder.via.setText("via " + source);
         // RT, Fav数
-        holder.retweetCount.setText(String.valueOf(status.getRetweetCount()));
-        holder.favCount.setText(String.valueOf(status.getFavoriteCount()));
+        if (PrefUtil.getBoolean(R.string.show_rt_fav_num, true)) {
+            holder.retweetCount.setVisibility(View.VISIBLE);
+            holder.favCount.setVisibility(View.VISIBLE);
+            holder.favIcon.setVisibility(View.VISIBLE);
+            holder.retweetIcon.setVisibility(View.VISIBLE);
+            holder.retweetCount.setText(String.valueOf(status.getRetweetCount()));
+            holder.favCount.setText(String.valueOf(status.getFavoriteCount()));
+        } else {
+            holder.retweetCount.setVisibility(View.GONE);
+            holder.favCount.setVisibility(View.GONE);
+            holder.favIcon.setVisibility(View.GONE);
+            holder.retweetIcon.setVisibility(View.GONE);
+        }
     }
 
     private static void setPostedAtTime(ViewHolder holder, Status status) {

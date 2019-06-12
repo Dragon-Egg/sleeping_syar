@@ -112,6 +112,12 @@
             android:title="@string/show_image_in_timeline" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/show_rt_fav_num"
+            android:summary="ギガには全く影響がない"
+            android:title="@string/show_rt_fav_num" />
+
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/remember_star"
             android:summary="忘れられない貴方に"
