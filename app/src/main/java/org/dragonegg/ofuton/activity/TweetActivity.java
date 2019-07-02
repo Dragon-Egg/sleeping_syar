@@ -367,11 +367,11 @@ public class TweetActivity extends FinishableActionbarActivity implements View.O
                 break;
 
             case R.id.appendAt:
-                mInputText.append("@");
+                mInputText.getText().insert(mInputText.getSelectionStart(), "@");
                 break;
 
             case R.id.appendHashTag:
-                mInputText.append("#");
+                mInputText.getText().insert(mInputText.getSelectionStart(), "#");
                 break;
         }
     }
