@@ -36,6 +36,7 @@ import org.dragonegg.ofuton.action.status.OpenTwitterAction;
 import org.dragonegg.ofuton.action.status.ReplyAction;
 import org.dragonegg.ofuton.action.status.ReplyAllAction;
 import org.dragonegg.ofuton.action.status.RetweetAction;
+import org.dragonegg.ofuton.action.status.StatusAction;
 import org.dragonegg.ofuton.action.status.TofuBusterAction;
 import org.dragonegg.ofuton.action.status.UserDetailAction;
 import org.dragonegg.ofuton.adapter.TweetStatusAdapter;
@@ -45,6 +46,8 @@ import org.dragonegg.ofuton.util.TwitterUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import twitter4j.HashtagEntity;
 import twitter4j.MediaEntity;
@@ -303,8 +306,16 @@ public class StatusDialogFragment extends DialogFragment {
             if (isEnablePreview && url.getDisplayURL().startsWith("pic.twitter.com/")) {
                 continue;
             }
-            mActionAdapter.add(new LinkAction(getActivity(), url
-                    .getExpandedURL()));
+            if (PrefUtil.getBoolean(R.string.open_twitter_status)) {
+                Matcher matcher = Pattern.compile("twitter\\.com/(.+?|)(/|)status/(\\d+)(|/)").matcher(url.getExpandedURL());
+                if (matcher.find()) {
+                    mActionAdapter.add(new StatusAction(getActivity(), Long.valueOf(matcher.group(3)), url.getExpandedURL()));
+                } else {
+                    mActionAdapter.add(new LinkAction(getActivity(), url.getExpandedURL()));
+                }
+            } else {
+                mActionAdapter.add(new LinkAction(getActivity(), url.getExpandedURL()));
+            }
             urls.add(url.getExpandedURL());
             Log.d("URLEntity", url.getExpandedURL());
         }

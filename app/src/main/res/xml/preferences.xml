@@ -119,6 +119,12 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="@string/open_twitter_status"
+            android:summary="新しくツイート詳細ダイアログが開くよ"
+            android:title="@string/open_twitter_status" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="@string/remember_star"
             android:summary="忘れられない貴方に"
             android:title="@string/remember_star" />
