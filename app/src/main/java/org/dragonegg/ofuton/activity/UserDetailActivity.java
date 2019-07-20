@@ -606,7 +606,7 @@ public class UserDetailActivity extends AppCompatActivity {
                 if (lists != null) {
                     long userId = TwitterUtils.getCurrentAccountId();// リスト選ぶんだから現在のユーザでおｋ
                     for (UserList list : lists) {
-                        TwitterList tList = new TwitterList(userId, list.getId(), list.getName(), list.getFullName(), list.getUser().getScreenName());
+                        TwitterList tList = new TwitterList(userId, list.getId(), list.getName(), list.getFullName(), list.getUser().getScreenName(), (list.getUser().getId() == userId));
                         mTwitterListAdapter.add(tList);
                     }
                     mListSelectDgFragment.show(getSupportFragmentManager(), "ListDialog");

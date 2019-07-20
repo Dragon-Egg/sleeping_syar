@@ -6,6 +6,7 @@ public class TwitterList {
 	private String name;
 	private String fullName;
 	private String creatorName;
+	private boolean isOwnList;
 
 	public TwitterList(long uid, long l, String name, String fname){
 		userId = uid;
@@ -20,6 +21,15 @@ public class TwitterList {
 		this.name = name;
 		fullName = fname;
 		creatorName = cname;
+	}
+
+	public TwitterList(long uid, long l, String name, String fname, String cname, boolean olist){
+		userId = uid;
+		listId = l;
+		this.name = name;
+		fullName = fname;
+		creatorName = cname;
+		isOwnList = olist;
 	}
 
 	public long getUserId() {
@@ -39,4 +49,6 @@ public class TwitterList {
 	}
 	
 	public String getCreatorName() { return creatorName; }
+
+	public boolean isOwnList() { return isOwnList; }
 }

@@ -65,6 +65,10 @@ public class ListSelectDialogFragment extends DialogFragment {
 					long id) {
 				ListView lv = (ListView)parent;
 				list = (TwitterList)lv.getItemAtPosition(pos);
+				if (!list.isOwnList()) {
+					AppUtil.showToast(getString(R.string.not_list_owner));
+					return;
+				}
 				checkMark = view.findViewById(R.id.checkMark);
 				pBar = view.findViewById(R.id.progressBar);
 				if(!pBar.isShown()){
