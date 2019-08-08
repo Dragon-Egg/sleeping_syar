@@ -191,7 +191,7 @@
 
                 <data
                     android:path="/login/syar"
-                    android:host="crakac.com"
+                    android:host="dragon-egg.org"
                     android:scheme="https" />
             </intent-filter>
         </activity>

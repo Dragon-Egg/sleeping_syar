@@ -21,7 +21,7 @@
     <string name="account_title">Accounts</string>
     <string name="add_account">アカウントを追加</string>
     <string name="twitter_oauth">Twitter認証</string>
-    <string name="twitter_callback_url">https://crakac.com/login/syar</string>
+    <string name="twitter_callback_url">https://dragon-egg.org/login/syar</string>
     <string name="connected">接続しました</string>
     <string name="disconnected">接続が切れました</string>
     <string name="dummy">xxxxxxxxxxxxxxxx</string>
@@ -116,7 +116,7 @@
     <string name="show_image_in_timeline">タイムラインに画像を表示</string>
     <string name="add_animation">TweetをTween</string>
     <string name="goto_webpage">作者HP</string>
-    <string name="homepage">https://crakac.com</string>
+    <string name="homepage">https://dragon-egg.org</string>
 
     <string name="tweet_detail_setting">ツイート詳細</string>
     <string name="tweet_detail_settings">ツイート詳細ダイアログに表示する項目</string>
