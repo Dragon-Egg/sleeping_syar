@@ -2,7 +2,7 @@
 name: 機能追加要望
 about: 機能追加はこちら
 title: ''
-labels: 'enhancement'
+labels: 'Type: Feature'
 assignees: ''
 
 ---
