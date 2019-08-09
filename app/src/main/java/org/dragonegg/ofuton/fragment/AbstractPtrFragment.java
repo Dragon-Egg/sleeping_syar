@@ -123,6 +123,7 @@ abstract public class AbstractPtrFragment extends Fragment implements SwipeRefre
     public void scrollToTop() {
         if (!isAdded())
             return;
+        mListView.smoothScrollBy(0, 0);
         mListView.setSelectionAfterHeaderView();
     }
 }
