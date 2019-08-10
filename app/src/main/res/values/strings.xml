@@ -155,6 +155,8 @@
     <string name="show_rt_fav_num">TLにリツイートとお気に入り数を表示</string>
     <string name="open_twitter_status">ツイートURLをアプリ内で開く</string>
     <string name="not_list_owner">あなたのリストじゃないよ！</string>
+    <string name="image_size">表示画像サイズ</string>
+    <string name="image_size_is_wifi">Wi-Fi接続時の表示画像サイズ</string>
 
     <string name="tofubuster_package">com.product.kanzmrsw.tofubuster</string>
 </resources>

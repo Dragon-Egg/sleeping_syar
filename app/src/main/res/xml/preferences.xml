@@ -111,6 +111,20 @@
             android:summary="ギガが気になる人はオフにするといいかも"
             android:title="@string/show_image_in_timeline" />
 
+        <ListPreference
+            android:defaultValue="orig"
+            android:entries="@array/image_size"
+            android:entryValues="@array/image_size"
+            android:key="@string/image_size"
+            android:title="@string/image_size" />
+
+        <ListPreference
+            android:defaultValue="orig"
+            android:entries="@array/image_size"
+            android:entryValues="@array/image_size"
+            android:key="@string/image_size_is_wifi"
+            android:title="@string/image_size_is_wifi" />
+
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/show_rt_fav_num"

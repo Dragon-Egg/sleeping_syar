@@ -5,6 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -186,5 +188,10 @@ public class Util {
         NotificationChannel channel = new NotificationChannel(id, name, importance);
         channel.enableVibration(false);
         manager.createNotificationChannel(channel);
+    }
+
+    public static boolean isConnectWifi(Context context) {
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
     }
 }

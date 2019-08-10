@@ -15,6 +15,7 @@ import org.dragonegg.ofuton.fragment.ImagePreviewFragment;
 import org.dragonegg.ofuton.fragment.VideoPreviewFragment;
 import org.dragonegg.ofuton.fragment.adapter.SimpleFragmentPagerAdapter;
 import org.dragonegg.ofuton.util.NetUtil;
+import org.dragonegg.ofuton.util.PrefUtil;
 import org.dragonegg.ofuton.util.Util;
 import org.dragonegg.ofuton.widget.HackyViewPager;
 import org.dragonegg.ofuton.widget.PreviewNavigation;
@@ -102,7 +103,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements PreviewNa
                 }
             }
             if (!hasValidUrl) {
-                ret.add(e.getMediaURLHttps());
+                ret.add(e.getMediaURLHttps().concat(":" + (Util.isConnectWifi(this) ? PrefUtil.getString(R.string.image_size_is_wifi) : PrefUtil.getString(R.string.image_size))));
             }
         }
         return ret;
@@ -134,7 +135,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements PreviewNa
         String url = mUrls.get(mPager.getCurrentItem());
         if (!Util.checkRuntimePermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_REQUEST_STORAGE))
             return;
-        saveImage(NetUtil.convertToImageFileUrl(url));
+        saveImage(NetUtil.convertToImageFileUrl(url.replaceAll(":(small|medium|large)$", ":orig")));
     }
 
     @Override

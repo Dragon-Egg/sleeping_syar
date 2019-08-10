@@ -43,6 +43,7 @@ public class SettingActivity extends FinishableActionbarActivity {
             setIconSize();
             setDateDisplayMode();
             setInlinePreview();
+            setImageSize();
             displayLicenseInfo();
             displayVersionInfo();
             requestSoftReloadOnClick(R.string.show_image_in_timeline, R.string.show_source, R.string.date_display_mode);
@@ -120,6 +121,29 @@ public class SettingActivity extends FinishableActionbarActivity {
             datePref = (ListPreference) findPreference(getString(R.string.date_display_mode));
             datePref.setSummary(datePref.getValue());
             datePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    preference.setSummary((CharSequence) newValue);
+                    return true;
+                }
+            });
+        }
+
+        private void setImageSize() {
+            ListPreference imagePref;
+            ListPreference wifiImagePref;
+            imagePref = (ListPreference) findPreference(getString(R.string.image_size));
+            wifiImagePref = (ListPreference) findPreference(getString(R.string.image_size_is_wifi));
+            imagePref.setSummary(imagePref.getValue());
+            wifiImagePref.setSummary(wifiImagePref.getValue());
+            imagePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    preference.setSummary((CharSequence) newValue);
+                    return true;
+                }
+            });
+            wifiImagePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     preference.setSummary((CharSequence) newValue);
