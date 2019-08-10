@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
-import android.net.Uri;
 import android.util.Log;
 
 import org.dragonegg.ofuton.BuildConfig;
@@ -392,12 +391,7 @@ public class TwitterUtils {
     public static ArrayList<String> extractMediaUrls(List<MediaEntity> entityList) {
         ArrayList<String> urlList = new ArrayList<>(entityList.size());
         for (MediaEntity entity : entityList) {
-            Uri uri = Uri.parse(entity.getMediaURL());
-            if (uri.getHost().equals("pbs.twimg.com")) {
-                urlList.add(uri.toString().concat(":" + (Util.isConnectWifi(sContext) ? PrefUtil.getString(R.string.image_size_is_wifi) : PrefUtil.getString(R.string.image_size))));
-            } else {
-                urlList.add(entity.getMediaURL());
-            }
+            urlList.add(entity.getMediaURLHttps().concat(":" + (Util.isConnectWifi(sContext) ? PrefUtil.getString(R.string.image_size_is_wifi, "orig") : PrefUtil.getString(R.string.image_size, "orig"))));
         }
         return urlList;
     }

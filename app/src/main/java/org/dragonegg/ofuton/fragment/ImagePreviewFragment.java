@@ -21,6 +21,8 @@ import org.dragonegg.ofuton.R;
 import org.dragonegg.ofuton.util.AppUtil;
 import org.dragonegg.ofuton.util.GlideApp;
 import org.dragonegg.ofuton.util.NetUtil;
+import org.dragonegg.ofuton.util.PrefUtil;
+import org.dragonegg.ofuton.util.Util;
 import org.dragonegg.ofuton.widget.Rotatable;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
@@ -55,7 +57,7 @@ public class ImagePreviewFragment extends Fragment implements Rotatable {
         String url = getArguments().getString(C.URL);
         if (url == null) {
             MediaEntity e = (MediaEntity) getArguments().getSerializable(C.MEDIA_ENTITY);
-            url = NetUtil.convertToImageFileUrl(e.getMediaURLHttps());
+            url = NetUtil.convertToImageFileUrl(e.getMediaURLHttps().concat(":" + (Util.isConnectWifi(getContext()) ? PrefUtil.getString(R.string.image_size_is_wifi, "orig") : PrefUtil.getString(R.string.image_size, "orig"))));
         }
         GlideApp.with(this).load(url).listener(loadImageListener).into(mImageView);
         return root;

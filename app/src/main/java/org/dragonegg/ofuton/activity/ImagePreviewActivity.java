@@ -103,7 +103,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements PreviewNa
                 }
             }
             if (!hasValidUrl) {
-                ret.add(e.getMediaURLHttps().concat(":" + (Util.isConnectWifi(this) ? PrefUtil.getString(R.string.image_size_is_wifi) : PrefUtil.getString(R.string.image_size))));
+                ret.add(e.getMediaURLHttps().concat(":" + (Util.isConnectWifi(this) ? PrefUtil.getString(R.string.image_size_is_wifi, "orig") : PrefUtil.getString(R.string.image_size, "orig"))));
             }
         }
         return ret;
