@@ -62,6 +62,8 @@ public class CancelRetweetAction extends ClickAction {
                 } else if(selectedStatus.isRetweet() && result.isRetweet()){
                     TweetStatusAdapter.updateItem(selectedStatus, result);
                     TweetStatusAdapter.updateItem(selectedStatus.getRetweetedStatus(), result.getRetweetedStatus());
+                } else {
+                    TweetStatusAdapter.updateItem(selectedStatus, result);
                 }
             }
         };
