@@ -192,6 +192,9 @@ public class Util {
 
     public static boolean isConnectWifi(Context context) {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null || cm.getActiveNetworkInfo() == null || !cm.getActiveNetworkInfo().isConnected()) {
+            return false;
+        }
         return cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
     }
 }
