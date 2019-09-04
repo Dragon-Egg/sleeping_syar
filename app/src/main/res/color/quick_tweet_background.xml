@@ -5,16 +5,19 @@
         android:drawable="@color/twitter_blue"
         android:state_pressed="false"
         android:state_enabled="true"
-        />
+        android:color="@color/twitter_blue" />
     <item
         android:drawable="@color/twitter_blue_dark"
         android:state_pressed="false"
-        android:state_selected="false"/>
+        android:state_selected="false"
+        android:color="@color/twitter_blue_dark" />
     <item
         android:drawable="@color/twitter_blue_bright"
-        android:state_pressed="true"/>
+        android:state_pressed="true"
+        android:color="@color/twitter_blue_bright" />
     <item
         android:drawable="@color/twitter_blue_bright"
         android:state_pressed="false"
-        android:state_selected="true"/>
+        android:state_selected="true"
+        android:color="@color/twitter_blue_bright" />
 </selector>
