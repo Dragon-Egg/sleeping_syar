@@ -5,8 +5,10 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -14,6 +16,9 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.ImageView;
+
+import org.dragonegg.ofuton.R;
 
 import java.io.Closeable;
 import java.io.File;
@@ -25,6 +30,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import twitter4j.MediaEntity;
 import twitter4j.TwitterAPIConfiguration;
@@ -187,7 +193,9 @@ public class Util {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationChannel channel = new NotificationChannel(id, name, importance);
         channel.enableVibration(false);
-        manager.createNotificationChannel(channel);
+        if (manager != null) {
+            manager.createNotificationChannel(channel);
+        }
     }
 
     public static boolean isConnectWifi(Context context) {
@@ -196,5 +204,16 @@ public class Util {
             return false;
         }
         return cm.getActiveNetworkInfo().getType() == ConnectivityManager.TYPE_WIFI;
+    }
+
+    public static void setIconColor(ImageView icon) {
+        if (icon != null) {
+            icon.setColorFilter(new PorterDuffColorFilter(
+                    Color.parseColor("#FF" + Util.getValidHexColor(PrefUtil.getString(R.string.status_icon_color, "FFFFFF"))), PorterDuff.Mode.SRC_IN));
+        }
+    }
+
+    public static String getValidHexColor(String hexColor) {
+        return Pattern.compile("^[0-9a-fA-F]{6}$").matcher(hexColor).find() ? hexColor : "FFFFFF";
     }
 }

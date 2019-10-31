@@ -271,6 +271,8 @@ public class TweetStatusAdapter extends BaseAdapter {
                 }
             }
         }
+        Util.setIconColor(holder.favIcon);
+        Util.setIconColor(holder.retweetIcon);
     }
 
     private static void setViewHolder(final ViewHolder holder, View convertView) {
@@ -396,10 +398,13 @@ public class TweetStatusAdapter extends BaseAdapter {
         icon.setVisibility(View.VISIBLE);
         if (item.isFavorited() && item.isRetweeted()) {
             icon.setImageResource((PrefUtil.getBoolean(R.string.remember_star, false)) ? R.drawable.ic_star_and_retweet : R.drawable.ic_fav_and_retweet);
+            Util.setIconColor(icon);
         } else if (item.isFavorited()) {
             icon.setImageResource((PrefUtil.getBoolean(R.string.remember_star, false)) ? R.drawable.ic_star : R.drawable.ic_fav);
+            Util.setIconColor(icon);
         } else if (item.isRetweeted()) {
             icon.setImageResource(R.drawable.ic_repeat);
+            Util.setIconColor(icon);
         } else {
             icon.setVisibility(View.GONE);
         }

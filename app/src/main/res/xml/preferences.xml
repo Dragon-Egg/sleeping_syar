@@ -143,6 +143,14 @@
             android:summary="忘れられない貴方に"
             android:title="@string/remember_star" />
 
+        <EditTextPreference
+            android:defaultValue="ffffff"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:key="@string/status_icon_color"
+            android:summary="16進数でね"
+            android:title="@string/status_icon_color" />
+
         <PreferenceScreen
             android:key="@string/tweet_detail_setting"
             android:summary="@string/tweet_detail_settings"

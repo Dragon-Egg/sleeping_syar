@@ -157,6 +157,7 @@
     <string name="not_list_owner">あなたのリストじゃないよ！</string>
     <string name="image_size">表示画像サイズ</string>
     <string name="image_size_is_wifi">Wi-Fi接続時の表示画像サイズ</string>
+    <string name="status_icon_color">ふぁぼりつアイコンの色</string>
 
     <string name="tofubuster_package">com.product.kanzmrsw.tofubuster</string>
 </resources>
