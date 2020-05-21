@@ -103,7 +103,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements PreviewNa
                 }
             }
             if (!hasValidUrl) {
-                ret.add(e.getMediaURLHttps().concat(":" + (Util.isConnectWifi(this) ? PrefUtil.getString(R.string.image_size_is_wifi, "orig") : PrefUtil.getString(R.string.image_size, "orig"))));
+                ret.add(e.getMediaURLHttps().concat("?name=" + (Util.isConnectWifi(this) ? PrefUtil.getString(R.string.image_size_is_wifi, "orig") : PrefUtil.getString(R.string.image_size, "orig"))));
             }
         }
         return ret;
@@ -135,7 +135,7 @@ public class ImagePreviewActivity extends AppCompatActivity implements PreviewNa
         String url = mUrls.get(mPager.getCurrentItem());
         if (!Util.checkRuntimePermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, PERMISSION_REQUEST_STORAGE))
             return;
-        saveImage(NetUtil.convertToImageFileUrl(url.replaceAll(":(small|medium|large)$", ":orig")));
+        saveImage(NetUtil.convertToImageFileUrl(url.replaceAll("(small|medium|large)$", "orig")));
     }
 
     @Override
