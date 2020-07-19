@@ -46,7 +46,7 @@ public class SettingActivity extends FinishableActionbarActivity {
             setImageSize();
             displayLicenseInfo();
             displayVersionInfo();
-            requestSoftReloadOnClick(R.string.show_image_in_timeline, R.string.show_source, R.string.date_display_mode);
+            requestSoftReloadOnClick(R.string.show_image_in_timeline, R.string.show_source, R.string.date_display_mode, R.string.remember_star);
             requestHardReloadOnChange(R.string.enable_fast_scroll, PrefUtil.getBoolean(R.string.enable_fast_scroll));
             Preference tweetDetailPreference = findPreference(getString(R.string.tweet_detail_setting));
             tweetDetailPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
