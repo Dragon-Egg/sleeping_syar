@@ -12,9 +12,13 @@ import android.widget.TextView;
 
 import org.dragonegg.ofuton.R;
 import org.dragonegg.ofuton.util.AppUtil;
+import org.dragonegg.ofuton.util.ParallelTask;
 import org.dragonegg.ofuton.util.PrefUtil;
+import org.dragonegg.ofuton.util.TwitterUtils;
 
 import twitter4j.DirectMessage;
+import twitter4j.TwitterException;
+import twitter4j.User;
 
 public class DmAdapter extends ArrayAdapter<DirectMessage> {
 
@@ -74,31 +78,19 @@ public class DmAdapter extends ArrayAdapter<DirectMessage> {
             holder.postedAt.setTextSize(subFontSize);
             holder.sentTo.setTextSize(fontSize);
 
-            final String senderIconUrl = AppUtil.getIconURL(item.getSender());
-            AppUtil.setImage(holder.icon, senderIconUrl);
-
-            String recipientIconUrl = AppUtil.getIconURL(item.getRecipient());
-            AppUtil.setImage(holder.smallIcon, recipientIconUrl);
-
-            // ユーザー名＋スクリーンネーム
-            holder.name.setText(item.getSender().getName() + " @" + item.getSenderScreenName());
+            holder.name.setText("");
+            holder.sentTo.setText("");
 
             // 本文
             holder.text.setText(AppUtil.getColoredText(item.getText(), item));
-
-            // 送信先
-            holder.sentTo.setText(item.getRecipientScreenName());
 
             // 日付の設定
             holder.postedAt.setText(AppUtil.dateToAbsoluteTime(item.getCreatedAt()));
             holder.postedAt.setVisibility(View.VISIBLE);
 
-            // 鍵アイコン
-            if (item.getSender().isProtected()) {
-                holder.lockedIcon.setVisibility(View.VISIBLE);
-            } else {
-                holder.lockedIcon.setVisibility(View.GONE);
-            }
+            GetUserDataTask task = new GetUserDataTask(holder, item);
+            task.executeParallel();
+
             return convertView;
         }
 
@@ -110,6 +102,45 @@ public class DmAdapter extends ArrayAdapter<DirectMessage> {
             ImageView icon;
             ImageView smallIcon;
             ImageView lockedIcon;
+        }
+
+        private class GetUserDataTask extends ParallelTask<Void, Void> {
+            ViewHolder holder;
+            DirectMessage item;
+            User senderUser;
+            User recipientUser;
+
+            GetUserDataTask(ViewHolder holder, DirectMessage item) {
+                this.holder = holder;
+                this.item = item;
+            }
+
+            @Override
+            protected Void doInBackground() {
+                try {
+                    senderUser = TwitterUtils.getTwitterInstance().showUser(item.getSenderId());
+                    recipientUser = TwitterUtils.getTwitterInstance().showUser(item.getRecipientId());
+                } catch (TwitterException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void param) {
+                AppUtil.setImage(holder.icon, AppUtil.getIconURL(senderUser));
+                AppUtil.setImage(holder.smallIcon, AppUtil.getIconURL(recipientUser));
+                // ユーザー名＋スクリーンネーム
+                holder.name.setText(senderUser.getName() + " @" + senderUser.getScreenName());
+                // 送信先
+                holder.sentTo.setText(recipientUser.getScreenName());
+                // 鍵アイコン
+                if (senderUser.isProtected()) {
+                    holder.lockedIcon.setVisibility(View.VISIBLE);
+                } else {
+                    holder.lockedIcon.setVisibility(View.GONE);
+                }
+            }
         }
     }
 }

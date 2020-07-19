@@ -65,6 +65,7 @@ abstract public class AbstractDmFragment extends AbstractPtrFragment {
 				dialog.show(getFragmentManager(), "status dialog");
 			}
 		});
+		removeFooterView();
 		initDMs();
 		return view;
 	}
@@ -72,11 +73,6 @@ abstract public class AbstractDmFragment extends AbstractPtrFragment {
 	@Override
 	protected void onClickEmptyView() {
 		initDMs();
-	}
-
-	@Override
-	protected void onClickFooterView() {
-		loadPreviousMessages();
 	}
 
 	@Override
@@ -149,6 +145,7 @@ abstract public class AbstractDmFragment extends AbstractPtrFragment {
 	private class FetchDirectMessageTask extends ParallelTask<Void, List<DirectMessage>>{
 		@Override
 		protected void onPreExecute() {
+			mAdapter.clear();
 			setEmptyViewLoading();
 			setFooterViewLoading();
 		}
@@ -187,6 +184,11 @@ abstract public class AbstractDmFragment extends AbstractPtrFragment {
 	}
 
 	private class FetchNewMessageTask extends ParallelTask<Void, List<DirectMessage>> {
+
+		@Override
+		protected void onPreExecute() {
+			mAdapter.clear();
+		}
 
 		@Override
 		protected List<DirectMessage> doInBackground() {

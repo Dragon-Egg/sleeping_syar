@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,13 +25,16 @@ import org.dragonegg.ofuton.action.status.LinkAction;
 import org.dragonegg.ofuton.action.status.UserDetailAction;
 import org.dragonegg.ofuton.adapter.DmAdapter;
 import org.dragonegg.ofuton.util.AppUtil;
+import org.dragonegg.ofuton.util.ParallelTask;
 import org.dragonegg.ofuton.util.TwitterUtils;
 
 import java.util.TreeSet;
 
 import twitter4j.DirectMessage;
 import twitter4j.MediaEntity;
+import twitter4j.TwitterException;
 import twitter4j.URLEntity;
+import twitter4j.User;
 import twitter4j.UserMentionEntity;
 
 /**
@@ -71,7 +75,8 @@ public class DmDialogFragment extends DialogFragment {
 		lvActions.addHeaderView(dmView);
 		// アダプタをセット
 		lvActions.setAdapter(mActionAdapter);
-		setActions();
+		SetActionsTask actionsTask = new SetActionsTask(getActivity(), dm);
+		actionsTask.executeParallel();
 
 		//アクションタップ次の処理
 		lvActions.setOnItemClickListener(new OnItemClickListener() {
@@ -124,30 +129,53 @@ public class DmDialogFragment extends DialogFragment {
 
 		return dialog;
 	}
+	private class SetActionsTask extends ParallelTask<Void, Void> {
+		FragmentActivity activity;
+		DirectMessage item;
+		User senderUser;
+		User recipientUser;
 
-	private void setActions(){
-		//返信する
-		if(dm.getSender().getId() != TwitterUtils.getCurrentAccount().getUserId()) {
-			mActionAdapter.add(new DmReplyAction(getActivity(), dm));
+		SetActionsTask(FragmentActivity activity, DirectMessage item) {
+			this.activity = activity;
+			this.item = item;
 		}
-		//ユーザー詳細
-		mActionAdapter.add(new UserDetailAction(getActivity(), dm.getSender()));
-		if(dm.getSenderId() != dm.getRecipientId()){
-			mActionAdapter.add(new UserDetailAction(getActivity(), dm.getRecipient()));
-		}
-		TreeSet<Long> mentionedUserIds = new TreeSet<>();
-		mentionedUserIds.add(dm.getSenderId());
-		mentionedUserIds.add(dm.getRecipientId());
 
-		for(UserMentionEntity e : dm.getUserMentionEntities()){
-			if(!mentionedUserIds.contains(e.getId()))
-				mActionAdapter.add(new UserDetailAction(getActivity(), e.getScreenName()));
+		@Override
+		protected Void doInBackground() {
+			try {
+				senderUser = TwitterUtils.getTwitterInstance().showUser(item.getSenderId());
+				recipientUser = TwitterUtils.getTwitterInstance().showUser(item.getRecipientId());
+			} catch (TwitterException e) {
+				e.printStackTrace();
+			}
+			return null;
 		}
-		for(URLEntity urlEntity : dm.getURLEntities()){
-			mActionAdapter.add(new LinkAction(getActivity(), urlEntity.getExpandedURL()));
-		}
-		for(MediaEntity mediaEntity : dm.getMediaEntities()){
-			mActionAdapter.add(new LinkAction(getActivity(), mediaEntity.getExpandedURL()));
+
+		@Override
+		protected void onPostExecute(Void param) {
+			//返信する
+			if(senderUser.getId() != TwitterUtils.getCurrentAccount().getUserId()) {
+				mActionAdapter.add(new DmReplyAction(getActivity(), dm, senderUser));
+			}
+			//ユーザー詳細
+			mActionAdapter.add(new UserDetailAction(getActivity(), senderUser));
+			if(dm.getSenderId() != dm.getRecipientId()){
+				mActionAdapter.add(new UserDetailAction(getActivity(), recipientUser));
+			}
+			TreeSet<Long> mentionedUserIds = new TreeSet<>();
+			mentionedUserIds.add(dm.getSenderId());
+			mentionedUserIds.add(dm.getRecipientId());
+
+			for(UserMentionEntity e : dm.getUserMentionEntities()){
+				if(!mentionedUserIds.contains(e.getId()))
+					mActionAdapter.add(new UserDetailAction(getActivity(), e.getScreenName()));
+			}
+			for(URLEntity urlEntity : dm.getURLEntities()){
+				mActionAdapter.add(new LinkAction(getActivity(), urlEntity.getExpandedURL()));
+			}
+			for(MediaEntity mediaEntity : dm.getMediaEntities()){
+				mActionAdapter.add(new LinkAction(getActivity(), mediaEntity.getExpandedURL()));
+			}
 		}
 	}
 }
