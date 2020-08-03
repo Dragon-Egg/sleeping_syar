@@ -64,6 +64,7 @@
     <string name="more_expand">プロフィールを表示する</string>
     <string name="tweeted">つぶやきました</string>
     <string name="header_image">ヘッダー画像を開く</string>
+    <string name="no_header_image">ヘッダー画像が設定されてないよ！</string>
     <string name="mute">ミュートする</string>
     <string name="unmute">ミュートを解除する</string>
 

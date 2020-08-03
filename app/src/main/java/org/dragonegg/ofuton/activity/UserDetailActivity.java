@@ -457,10 +457,14 @@ public class UserDetailActivity extends AppCompatActivity {
                 switchProfileExpansion(item);
                 break;
             case R.id.open_header_image:
-                i = new Intent(this, ImagePreviewActivity.class);
-                i.setData(Uri.parse(mTargetUser.getProfileBannerURL()));
-                startActivity(i);
-                overridePendingTransition(R.anim.fade_in, 0);
+                if (mTargetUser.getProfileBannerURL() != null) {
+                    i = new Intent(this, ImagePreviewActivity.class);
+                    i.setData(Uri.parse(mTargetUser.getProfileBannerURL()));
+                    startActivity(i);
+                    overridePendingTransition(R.anim.fade_in, 0);
+                } else {
+                    AppUtil.showToast(R.string.no_header_image);
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
