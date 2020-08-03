@@ -270,6 +270,9 @@ public class TweetActivity extends FinishableActionbarActivity implements View.O
 
     private AppendedImageView inflateThumbnail() {
         final AppendedImageView iv = new AppendedImageView(this);
+        int photoSize = Math.round(90 * iv.getResources().getDisplayMetrics().density);
+        iv.getImageView().getLayoutParams().height = photoSize;
+        iv.getImageView().getLayoutParams().width = photoSize;
         mAppendedImageRoot.addView(iv);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             iv.getImageView().setOnTouchListener(new ColorOverlayOnTouch());
