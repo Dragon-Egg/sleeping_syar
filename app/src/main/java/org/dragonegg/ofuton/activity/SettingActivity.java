@@ -38,7 +38,7 @@ public class SettingActivity extends FinishableActionbarActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.preferences);
-            setButtonPpistion();
+            setButtonPosition();
             setFontSize();
             setIconSize();
             setDateDisplayMode();
@@ -46,8 +46,9 @@ public class SettingActivity extends FinishableActionbarActivity {
             setImageSize();
             displayLicenseInfo();
             displayVersionInfo();
-            requestSoftReloadOnClick(R.string.show_image_in_timeline, R.string.show_source, R.string.date_display_mode, R.string.remember_star);
+            requestSoftReloadOnClick(R.string.show_image_in_timeline, R.string.show_source, R.string.date_display_mode);
             requestHardReloadOnChange(R.string.enable_fast_scroll, PrefUtil.getBoolean(R.string.enable_fast_scroll));
+            requestHardReloadOnChange(R.string.remember_star, PrefUtil.getBoolean(R.string.remember_star));
             Preference tweetDetailPreference = findPreference(getString(R.string.tweet_detail_setting));
             tweetDetailPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
                 @Override
@@ -58,7 +59,7 @@ public class SettingActivity extends FinishableActionbarActivity {
             });
         }
 
-        private void setButtonPpistion() {
+        private void setButtonPosition() {
             ListPreference positionPref;
             final String[] displayStrings = getResources().getStringArray(R.array.tweet_button_position_selectable);
             positionPref = (ListPreference) findPreference(getString(R.string.tweet_button_position));

@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_reply"
         android:title="@string/drawer_mentions" />
     <item
-        android:id="@+id/manu_favorite"
+        android:id="@+id/menu_favorite"
         android:icon="@drawable/ic_fav"
         android:title="@string/drawer_favs" />
     <item

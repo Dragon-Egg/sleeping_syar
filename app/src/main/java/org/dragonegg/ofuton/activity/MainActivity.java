@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mNavigationView = (NavigationView) findViewById(R.id.navigation_header);
+        mNavigationView.getMenu().findItem(R.id.menu_favorite).setIcon((PrefUtil.getBoolean(R.string.remember_star, false)) ? R.drawable.ic_star : R.drawable.ic_fav);
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -342,7 +343,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.menu_mention:
                         mPager.setCurrentItem(getFragmentPosition(TAB_ID_MENTION));
                         break;
-                    case R.id.manu_favorite:
+                    case R.id.menu_favorite:
                         mPager.setCurrentItem(getFragmentPosition(TAB_ID_FAVORITE));
                         break;
                     case R.id.menu_dm:
