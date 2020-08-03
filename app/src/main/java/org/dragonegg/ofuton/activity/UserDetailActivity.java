@@ -440,6 +440,12 @@ public class UserDetailActivity extends AppCompatActivity {
             case R.id.collapse:
                 switchProfileExpansion(item);
                 break;
+            case R.id.open_header_image:
+                i = new Intent(this, ImagePreviewActivity.class);
+                i.setData(Uri.parse(mTargetUser.getProfileBannerURL()));
+                startActivity(i);
+                overridePendingTransition(R.anim.fade_in, 0);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
