@@ -51,7 +51,7 @@ import twitter4j.UserList;
 
 public class UserDetailActivity extends AppCompatActivity {
     enum Relation {
-        NotLoaded, Mutal, Following, Followed, Blocking, Unrelated, Myself,
+        NotLoaded, Mutual, Following, Followed, Blocking, Unrelated, Myself
     }
 
     protected static final String TAG = UserDetailActivity.class.getSimpleName();
@@ -64,6 +64,7 @@ public class UserDetailActivity extends AppCompatActivity {
     private ProgressDialogFragment mDialog;
     private Twitter mTwitter;
     private User mTargetUser;
+    private boolean mIsMutingTargetUser;
     private Relation mRelation;
     private Relationship mT4jRelation;
     private RelationTask mChangeRelationTask;
@@ -72,7 +73,8 @@ public class UserDetailActivity extends AppCompatActivity {
     private ParallelTask<Void, List<UserList>> mLoadListTask;
     private TextView mBioText, mLocationText, mUrlText, mRelationText;
     private ImageView mIconImage, mHeaderImage;
-    private ImageView mlockMark;
+    private ImageView mLockMark;
+    private ImageView mMuteMark;
     private ProgressBar mloadingSpinner;
     private int mShortAnimeDuration;
     private ActionBar mActionbar;
@@ -175,7 +177,8 @@ public class UserDetailActivity extends AppCompatActivity {
             mIconImage.setOnTouchListener(new ColorOverlayOnTouch());
         }
         mHeaderImage = findViewById(R.id.header_image);
-        mlockMark = findViewById(R.id.lockedIcon);
+        mLockMark = findViewById(R.id.lockedIcon);
+        mMuteMark = findViewById(R.id.mutedIcon);
         mBioText = findViewById(R.id.bioText);
         mLocationText = findViewById(R.id.locationText);
         mUrlText = findViewById(R.id.urlText);
@@ -184,7 +187,8 @@ public class UserDetailActivity extends AppCompatActivity {
         mloadingSpinner.setVisibility(View.VISIBLE);
 
         mRelationText.setText("読み込み中");
-        mlockMark.setVisibility(View.GONE);
+        mLockMark.setVisibility(View.GONE);
+        mMuteMark.setVisibility(View.GONE);
         mBioText.setText("");
         mLocationText.setText("");
         mUrlText.setText("");
@@ -209,9 +213,9 @@ public class UserDetailActivity extends AppCompatActivity {
         });
         AppUtil.setImage(mHeaderImage, user.getProfileBannerURL());
         if (user.isProtected()) {
-            mlockMark.setVisibility(View.VISIBLE);
+            mLockMark.setVisibility(View.VISIBLE);
         } else {
-            mlockMark.setVisibility(View.GONE);
+            mLockMark.setVisibility(View.GONE);
         }
 
         URLEntity[] urls = user.getDescriptionURLEntities();
@@ -311,7 +315,7 @@ public class UserDetailActivity extends AppCompatActivity {
         if (relationShip.isSourceBlockingTarget()) {
             mRelation = Relation.Blocking;
         } else if (relationShip.isSourceFollowedByTarget() && relationShip.isSourceFollowingTarget()) {
-            mRelation = Relation.Mutal;
+            mRelation = Relation.Mutual;
         } else if (relationShip.isSourceFollowingTarget()) {
             mRelation = Relation.Following;
         } else if (relationShip.isSourceFollowedByTarget()) {
@@ -322,6 +326,7 @@ public class UserDetailActivity extends AppCompatActivity {
         if (mTargetUser.getId() == TwitterUtils.getCurrentAccountId()) {
             mRelation = Relation.Myself;
         }
+        mIsMutingTargetUser = relationShip.isSourceMutingTarget();
         setRelationText(mRelation);
     }
 
@@ -330,7 +335,7 @@ public class UserDetailActivity extends AppCompatActivity {
             case Blocking:
                 mRelationText.setText("ブロック中");
                 break;
-            case Mutal:
+            case Mutual:
                 mRelationText.setText("相互フォロー");
                 break;
             case Followed:
@@ -349,6 +354,7 @@ public class UserDetailActivity extends AppCompatActivity {
                 mRelationText.setText("何かおかしいよ");
                 break;
         }
+        mMuteMark.setVisibility((mIsMutingTargetUser) ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -373,7 +379,7 @@ public class UserDetailActivity extends AppCompatActivity {
                 changeRelationMenu.setTitle("ブロック中");
                 break;
             case Following:
-            case Mutal:
+            case Mutual:
                 changeRelationMenu.setEnabled(true);
                 changeRelationMenu.setTitle(R.string.remove);
                 break;
@@ -386,6 +392,13 @@ public class UserDetailActivity extends AppCompatActivity {
                 break;
         }
 
+        MenuItem muteMenu = menu.findItem(R.id.menu_mute);
+        if (mIsMutingTargetUser) {
+            muteMenu.setTitle(R.string.unmute);
+        } else {
+            muteMenu.setTitle(R.string.mute);
+        }
+
         MenuItem blockMenu = menu.findItem(R.id.menu_block);
         if (mRelation == Relation.Blocking) {
             blockMenu.setTitle(R.string.unblock);
@@ -396,7 +409,7 @@ public class UserDetailActivity extends AppCompatActivity {
         MenuItem dmMenu = menu.findItem(R.id.menu_dm);
         switch (mRelation) {
             case Followed:
-            case Mutal:
+            case Mutual:
             case Myself:
                 dmMenu.setEnabled(true);
                 break;
@@ -419,6 +432,9 @@ public class UserDetailActivity extends AppCompatActivity {
                 break;
             case R.id.menu_relation:
                 changeRelation();
+                break;
+            case R.id.menu_mute:
+                muteUser();
                 break;
             case R.id.menu_block:
                 blockUser();
@@ -451,7 +467,7 @@ public class UserDetailActivity extends AppCompatActivity {
     }
 
     private void reportUser() {
-        RelationTaskListener listner = new RelationTaskListener() {
+        RelationTaskListener listener = new RelationTaskListener() {
             @Override
             public void end() {
                 AppUtil.showToast("スパムとして報告しました");
@@ -462,7 +478,7 @@ public class UserDetailActivity extends AppCompatActivity {
                 return mTwitter.reportSpam(mTargetUser.getId());
             }
         };
-        mChangeRelationTask = new RelationTask(listner);
+        mChangeRelationTask = new RelationTask(listener);
         mChangeRelationTask.executeParallel();
     }
 
@@ -471,7 +487,7 @@ public class UserDetailActivity extends AppCompatActivity {
             AppUtil.showToast(R.string.impossible);
             return;
         }
-        RelationTaskListener listner = new RelationTaskListener() {
+        RelationTaskListener listener = new RelationTaskListener() {
             @Override
             public void end() {
                 if (mRelation == Relation.Blocking) {
@@ -490,15 +506,43 @@ public class UserDetailActivity extends AppCompatActivity {
                 }
             }
         };
-        mChangeRelationTask = new RelationTask(listner);
+        mChangeRelationTask = new RelationTask(listener);
+        mChangeRelationTask.executeParallel();
+    }
+
+    private void muteUser() {
+        if (mTargetUser.getId() == TwitterUtils.getCurrentAccountId()) {
+            AppUtil.showToast(R.string.impossible);
+            return;
+        }
+        RelationTaskListener listener = new RelationTaskListener() {
+            @Override
+            public void end() {
+                if (mIsMutingTargetUser) {
+                    AppUtil.showToast("ミュートを解除しました");
+                } else {
+                    AppUtil.showToast("ミュートしました");
+                }
+            }
+
+            @Override
+            public User action() throws TwitterException {
+                if (mIsMutingTargetUser) {
+                    return mTwitter.destroyMute(mTargetUser.getId());
+                } else {
+                    return mTwitter.createMute(mTargetUser.getId());
+                }
+            }
+        };
+        mChangeRelationTask = new RelationTask(listener);
         mChangeRelationTask.executeParallel();
     }
 
     private void changeRelation() {
-        RelationTaskListener listner = new RelationTaskListener() {
+        RelationTaskListener listener = new RelationTaskListener() {
             @Override
             public void end() {
-                if (mRelation == Relation.Following || mRelation == Relation.Mutal) {
+                if (mRelation == Relation.Following || mRelation == Relation.Mutual) {
                     AppUtil.showToast("リムーブしました");
                 } else {
                     AppUtil.showToast("フォローしました");
@@ -507,7 +551,7 @@ public class UserDetailActivity extends AppCompatActivity {
 
             @Override
             public User action() throws TwitterException {
-                if (mRelation == Relation.Following || mRelation == Relation.Mutal) {
+                if (mRelation == Relation.Following || mRelation == Relation.Mutual) {
                     return mTwitter.destroyFriendship(mTargetUser.getId());
                 } else if (mRelation == Relation.Followed || mRelation == Relation.Unrelated) {
                     return mTwitter.createFriendship(mTargetUser.getId());
@@ -516,7 +560,7 @@ public class UserDetailActivity extends AppCompatActivity {
                 }
             }
         };
-        mChangeRelationTask = new RelationTask(listner);
+        mChangeRelationTask = new RelationTask(listener);
         mChangeRelationTask.executeParallel();
     }
 

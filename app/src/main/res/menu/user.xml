@@ -19,19 +19,27 @@
         android:title="@string/send_mention">
     </item>
     <item
+        android:id="@+id/menu_list"
+        android:title="@string/list"
+        app:showAsAction="never">
+
+    </item>
+    <item
         android:id="@+id/menu_dm"
         app:showAsAction="never"
         android:title="@string/send_dm">
     </item>
     <item
-        android:id="@+id/menu_block"
-        app:showAsAction="never"
-        android:title="@string/list">
+        android:id="@+id/menu_mute"
+        android:title="@string/dummy"
+        app:showAsAction="never">
+
     </item>
     <item
-        android:id="@+id/menu_list"
-        app:showAsAction="never"
-        android:title="@string/list">
+        android:id="@+id/menu_block"
+        android:title="@string/dummy"
+        app:showAsAction="never">
+
     </item>
     <item
         android:id="@+id/menu_r4s"

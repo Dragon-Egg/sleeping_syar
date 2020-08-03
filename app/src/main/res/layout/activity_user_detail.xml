@@ -50,6 +50,15 @@
                     android:scaleType="centerCrop" />
 
                 <ImageView
+                    android:id="@+id/mutedIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignBottom="@+id/icon"
+                    android:layout_alignLeft="@+id/icon"
+                    android:tint="@color/light_gray" app:srcCompat="@drawable/ic_mute"
+                    android:visibility="visible" />
+
+                <ImageView
                     android:id="@+id/lockedIcon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
