@@ -1,7 +1,7 @@
 package org.dragonegg.ofuton.fragment.adapter;
 
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.dragonegg.ofuton.fragment.AbstractPtrFragment;
 import org.dragonegg.ofuton.util.AppUtil;

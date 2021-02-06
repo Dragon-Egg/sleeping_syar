@@ -1,7 +1,7 @@
 package org.dragonegg.ofuton.action.status;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import org.dragonegg.ofuton.C;
 import org.dragonegg.ofuton.R;

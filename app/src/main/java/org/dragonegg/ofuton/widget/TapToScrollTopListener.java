@@ -1,7 +1,7 @@
 package org.dragonegg.ofuton.widget;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
+import com.google.android.material.tabs.TabLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import org.dragonegg.ofuton.fragment.AbstractPtrFragment;
 import org.dragonegg.ofuton.fragment.adapter.SimpleFragmentPagerAdapter;

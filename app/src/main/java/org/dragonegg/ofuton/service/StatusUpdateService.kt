@@ -4,7 +4,7 @@ import android.app.IntentService
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import org.dragonegg.ofuton.C
 import org.dragonegg.ofuton.R
 import org.dragonegg.ofuton.util.AppUtil
