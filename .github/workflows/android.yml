@@ -23,6 +23,8 @@ jobs:
       run: chmod +x gradlew
     - name: Generate twitter.properties
       run: echo '${{secrets.TWITTER_CS}}'$'\n''${{secrets.TWITTER_CK}}' >> ./app/twitter.properties
+    - name: Generate gradle.properties
+      run: echo 'android.enableJetifier=true'$'\n''android.useAndroidX=true' >> ./gradle.properties
     - name: Build with Gradle
       run: ./gradlew assembleDebug -x lint --no-daemon
 
