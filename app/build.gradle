@@ -11,7 +11,7 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId 'org.dragonegg.ofuton'
-        minSdkVersion 14
+        minSdkVersion 25
         targetSdkVersion 28
         versionCode 35
         versionName '2.1.5 Dragon-Egg/dragon-egg.ofuton'
@@ -20,14 +20,15 @@ android {
     buildTypes {
         release {
             debuggable false
+            shrinkResources true
             minifyEnabled true
-            useProguard true
+            //useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
             debuggable true
-            applicationIdSuffix '.debug'
             minifyEnabled false
+            applicationIdSuffix '.debug'
         }
         applicationVariants.all { variant ->
             def twitterProps = getProps("app/twitter.properties")
