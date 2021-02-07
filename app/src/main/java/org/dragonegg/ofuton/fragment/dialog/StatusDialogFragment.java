@@ -36,6 +36,7 @@ import org.dragonegg.ofuton.action.status.OpenTwitterAction;
 import org.dragonegg.ofuton.action.status.ReplyAction;
 import org.dragonegg.ofuton.action.status.ReplyAllAction;
 import org.dragonegg.ofuton.action.status.RetweetAction;
+import org.dragonegg.ofuton.action.status.ShareAction;
 import org.dragonegg.ofuton.action.status.StatusAction;
 import org.dragonegg.ofuton.action.status.TofuBusterAction;
 import org.dragonegg.ofuton.action.status.UserDetailAction;
@@ -251,6 +252,11 @@ public class StatusDialogFragment extends DialogFragment {
         // Twitterで開く
         if (PrefUtil.getBoolean(R.string.open_twitter_app, true)) {
             mActionAdapter.add(new OpenTwitterAction(getContext(), mSelectedStatus));
+        }
+
+        // Twitterで開く
+        if (PrefUtil.getBoolean(R.string.show_share, true)) {
+            mActionAdapter.add(new ShareAction(getContext(), mSelectedStatus));
         }
 
         mActionAdapter.notifyDataSetChanged();

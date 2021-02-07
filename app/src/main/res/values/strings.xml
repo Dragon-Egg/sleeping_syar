@@ -136,6 +136,8 @@
     <string name="show_hashtag_tweet">ハッシュタグでツイート</string>
     <string name="show_hashtag_search">ハッシュタグで検索</string>
     <string name="show_link_copy">URLをコピーする</string>
+    <string name="show_share">ツイートリンクの共有</string>
+    <string name="share">共有する</string>
 
     <string name="sending_tweet">ツイート送信中</string>
     <string name="complete">完了</string>
