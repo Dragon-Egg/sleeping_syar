@@ -457,9 +457,9 @@ public class UserDetailActivity extends AppCompatActivity {
                 switchProfileExpansion(item);
                 break;
             case R.id.open_header_image:
-                if (mTargetUser.getProfileBannerURL() != null) {
+                if (mTargetUser.getProfileBanner1500x500URL() != null) {
                     i = new Intent(this, ImagePreviewActivity.class);
-                    i.setData(Uri.parse(mTargetUser.getProfileBannerURL()));
+                    i.setData(Uri.parse(mTargetUser.getProfileBanner1500x500URL()));
                     startActivity(i);
                     overridePendingTransition(R.anim.fade_in, 0);
                 } else {
