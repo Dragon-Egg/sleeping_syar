@@ -219,7 +219,7 @@ public class StatusDialogFragment extends DialogFragment {
         }
 
         // Fav & Retweet
-        if (PrefUtil.getBoolean(R.string.show_fav_and_retweet, true) && isRetweetable(mSelectedStatus) && !mSelectedStatus.isFavorited()) {
+        if (PrefUtil.getBoolean(R.string.show_fav_and_retweet, false) && isRetweetable(mSelectedStatus) && !mSelectedStatus.isFavorited()) {
             mActionAdapter.add(new FavAndRetweeAction(getContext(), mSelectedStatus));
         }
 
@@ -236,7 +236,7 @@ public class StatusDialogFragment extends DialogFragment {
             setMediaEntities(mSelectedStatus);
         }
 
-        if(PrefUtil.getBoolean(R.string.show_hashtag_tweet, true)){
+        if(PrefUtil.getBoolean(R.string.show_hashtag_tweet, false)){
             setHashtagEntities(mSelectedStatus);
         }
 

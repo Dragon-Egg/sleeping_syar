@@ -22,7 +22,7 @@
             android:key="@string/show_retweet_key"
             android:title="@string/show_retweet" />
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/show_fav_and_retweet"
             android:title="@string/show_fav_and_retweet" />
         <CheckBoxPreference
@@ -30,7 +30,7 @@
             android:key="@string/show_accounts_in_tweet"
             android:title="@string/show_accounts_in_tweet" />
         <CheckBoxPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/show_hashtag_tweet"
             android:title="@string/show_hashtag_tweet" />
         <CheckBoxPreference
