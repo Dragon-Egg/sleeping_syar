@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
 
+import androidx.core.text.HtmlCompat;
+
 import org.dragonegg.ofuton.R;
 
 import java.io.IOException;
@@ -24,7 +26,7 @@ public class LicenseActivity extends FinishableActionbarActivity {
             is.read(buf);
             is.close();
             String text = new String(buf);
-            textView.setText(Html.fromHtml(text.replace("\n", "<br/>")));
+            textView.setText(HtmlCompat.fromHtml(text.replace("\n", "<br/>"), HtmlCompat.FROM_HTML_MODE_COMPACT));
         } catch (IOException e) {
             e.printStackTrace();
         }
