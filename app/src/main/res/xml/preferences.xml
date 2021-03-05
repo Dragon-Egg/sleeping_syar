@@ -1,56 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/streaming_and_notification">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/streaming_mode"
-            android:summary="ホーム画面にツイートが流れ出します"
-            android:title="@string/streaming_mode" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="@string/streaming_mode"
-            android:key="@string/always_awake"
-            android:layout="?android:attr/preferenceLayoutChild"
-            android:summary="いつまでもTLを見続けたい人向け"
-            android:title="@string/always_awake" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="@string/streaming_mode"
-            android:key="@string/notification"
-            android:summary="ストリーミングモード時のみ有効にできます"
-            android:title="@string/notification" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="@string/notification"
-            android:key="@string/reply_notification"
-            android:layout="?android:attr/preferenceLayoutChild"
-            android:title="@string/reply_notification" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="@string/notification"
-            android:key="@string/fav_notification"
-            android:layout="?android:attr/preferenceLayoutChild"
-            android:title="@string/fav_notification" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="@string/notification"
-            android:key="@string/rt_notification"
-            android:layout="?android:attr/preferenceLayoutChild"
-            android:title="@string/rt_notification" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="@string/notification"
-            android:key="@string/dm_notification"
-            android:layout="?android:attr/preferenceLayoutChild"
-            android:title="@string/dm_notification" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:dependency="@string/notification"
-            android:key="@string/new_follower_notification"
-            android:layout="?android:attr/preferenceLayoutChild"
-            android:title="@string/new_follower_notification" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/appearance">
         <ListPreference
             android:defaultValue="Right"
@@ -177,6 +126,6 @@
 
         <PreferenceScreen
             android:key="@string/license_info"
-            android:title="@string/license_info"></PreferenceScreen>
+            android:title="@string/license_info" />
     </PreferenceCategory>
 </PreferenceScreen>
