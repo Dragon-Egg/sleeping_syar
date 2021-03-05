@@ -57,6 +57,14 @@ public class SettingActivity extends FinishableActionbarActivity {
                     return true;
                 }
             });
+            Preference tweetDetailOrderPreference = findPreference(getString(R.string.tweet_detail_setting_order));
+            tweetDetailOrderPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(getActivity(), SettingTweetDetailOrderActivity.class));
+                    return true;
+                }
+            });
         }
 
         private void setButtonPosition() {

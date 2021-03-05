@@ -156,6 +156,11 @@
             android:summary="@string/tweet_detail_settings"
             android:title="@string/tweet_detail_setting" />
 
+        <PreferenceScreen
+            android:key="@string/tweet_detail_setting_order"
+            android:summary="@string/tweet_detail_settings_order"
+            android:title="@string/tweet_detail_setting_order" />
+
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/others">
         <PreferenceScreen

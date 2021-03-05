@@ -124,13 +124,15 @@
 
     <string name="tweet_detail_setting">ツイート詳細</string>
     <string name="tweet_detail_settings">ツイート詳細ダイアログに表示する項目</string>
+    <string name="tweet_detail_setting_order">ツイート詳細表示順</string>
+    <string name="tweet_detail_settings_order">ツイート詳細ダイアログの表示順</string>
     <string name="show_destroy">ツイート削除</string>
     <string name="show_reply">返信</string>
     <string name="show_reply_all">全員に返信</string>
     <string name="show_favorite">お気に入り</string>
     <string name="show_retweet">リツイート</string>
-    <string name="show_favorite_key">show_fav</string>
-    <string name="show_retweet_key">show_rt</string>
+    <string name="show_favorite_key">お気に入り</string>
+    <string name="show_retweet_key">リツイート</string>
     <string name="show_fav_and_retweet">お気に入りしてリツイート</string>
     <string name="show_accounts_in_tweet">言及されているユーザー</string>
     <string name="show_hashtag_tweet">ハッシュタグでツイート</string>
@@ -138,6 +140,9 @@
     <string name="show_link_copy">URLをコピーする</string>
     <string name="show_share">ツイートリンクの共有</string>
     <string name="share">共有する</string>
+    <string name="show_user_entities_order">アカウント表示</string>
+    <string name="show_url_entities_order">ツイート内URL表示</string>
+    <string name="show_media_entities_order">ツイート内メディア表示</string>
 
     <string name="sending_tweet">ツイート送信中</string>
     <string name="complete">完了</string>

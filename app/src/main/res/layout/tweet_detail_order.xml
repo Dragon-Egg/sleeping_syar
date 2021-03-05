@@ -1,0 +1,16 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ScrollView
+        android:id="@+id/drag_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.jmedeisis.draglinearlayout.DragLinearLayout
+            android:id="@+id/drag_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </com.jmedeisis.draglinearlayout.DragLinearLayout>
+    </ScrollView>
+
+</LinearLayout>

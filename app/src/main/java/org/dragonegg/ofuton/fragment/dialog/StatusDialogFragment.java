@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +16,17 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.dragonegg.ofuton.C;
 import org.dragonegg.ofuton.R;
 import org.dragonegg.ofuton.action.ClickActionAdapter;
 import org.dragonegg.ofuton.action.status.CancelRetweetAction;
 import org.dragonegg.ofuton.action.status.ClickAction;
-import org.dragonegg.ofuton.action.status.ConversationAction;
 import org.dragonegg.ofuton.action.status.CopyLinkAction;
 import org.dragonegg.ofuton.action.status.DestroyStatusAction;
 import org.dragonegg.ofuton.action.status.FavAction;
@@ -38,15 +41,19 @@ import org.dragonegg.ofuton.action.status.ReplyAllAction;
 import org.dragonegg.ofuton.action.status.RetweetAction;
 import org.dragonegg.ofuton.action.status.ShareAction;
 import org.dragonegg.ofuton.action.status.StatusAction;
-import org.dragonegg.ofuton.action.status.TofuBusterAction;
 import org.dragonegg.ofuton.action.status.UserDetailAction;
 import org.dragonegg.ofuton.adapter.TweetStatusAdapter;
 import org.dragonegg.ofuton.util.AppUtil;
 import org.dragonegg.ofuton.util.PrefUtil;
 import org.dragonegg.ofuton.util.TwitterUtils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,6 +77,26 @@ public class StatusDialogFragment extends DialogFragment {
     private Dialog mDialog;
     private Status mSelectedStatus;
     private boolean isEnablePreview;
+    public static final LinkedHashMap<String, Boolean> initialDetails = new LinkedHashMap<String, Boolean>() {
+        {
+            put("show_destroy", true);
+            put("show_reply", true);
+            put("show_reply_all", true);
+            put("show_conversation", true);
+            put("show_accounts_in_tweet", true);
+            put("show_favorite_key", true);
+            put("show_retweet_key", true);
+            put("show_fav_and_retweet", false);
+            put("show_user_entities_order", false);
+            put("show_url_entities_order", false);
+            put("show_media_entities_order", false);
+            put("show_hashtag_tweet", false);
+            put("show_hashtag_search", true);
+            put("show_link_copy", true);
+            put("show_share", true);
+            put("open_twitter_app", true);
+        }
+    };
 
     public StatusDialogFragment() {
     }
@@ -169,96 +196,109 @@ public class StatusDialogFragment extends DialogFragment {
     }
 
     private void setActions() {
-
         Status retweetedStatus = mSelectedStatus.getRetweetedStatus();
-        // 自分のツイートならdestroyアクションを追加
-        if (PrefUtil.getBoolean(R.string.show_destroy, true) &&
-                ((isMyTweet(mSelectedStatus) && !mSelectedStatus.isRetweet()) || isMyTweet(retweetedStatus))) {
-            mActionAdapter.add(new DestroyStatusAction(getActivity(), mSelectedStatus));
-        }
+        checkDialogDetails();
+        Gson gson = new Gson();
+        String viewOrder = PrefUtil.getString(R.string.tweet_detail_setting_order, gson.toJson(new LinkedHashMap(initialDetails)));
+        Type type = new TypeToken<LinkedHashMap<String, Boolean>>(){}.getType();
+        LinkedHashMap<String, Boolean> savedHashMap = new LinkedHashMap<>(gson.fromJson(viewOrder, type));
 
-        // reply
-        if (PrefUtil.getBoolean(R.string.show_reply, true)) {
-            mActionAdapter.add(new ReplyAction(getActivity(), mSelectedStatus));
-        }
+        for (String key: savedHashMap.keySet()) {
+            int stringResource = getResources().getIdentifier(key, "string", Objects.requireNonNull(this.getContext()).getPackageName());
+            if (stringResource == R.string.show_destroy) {
+                // 自分のツイートならdestroyアクションを追加
+                if (PrefUtil.getBoolean(R.string.show_destroy, true) &&
+                        ((isMyTweet(mSelectedStatus) && !mSelectedStatus.isRetweet()) || isMyTweet(retweetedStatus))) {
+                    mActionAdapter.add(new DestroyStatusAction(getActivity(), mSelectedStatus));
+                }
+            }
+            if (stringResource == R.string.show_reply) {
+                // reply
+                if (PrefUtil.getBoolean(R.string.show_reply, true)) {
+                    mActionAdapter.add(new ReplyAction(getActivity(), mSelectedStatus));
+                }
+            }
+            if (stringResource == R.string.show_reply_all) {
+                // reply all
+                if (PrefUtil.getBoolean(R.string.show_reply_all, true)) {
+                    UserMentionEntity[] entities = mSelectedStatus.isRetweet() ? retweetedStatus.getUserMentionEntities() : mSelectedStatus.getUserMentionEntities();
 
-        // reply all
-        if (PrefUtil.getBoolean(R.string.show_reply_all, true)) {
-            UserMentionEntity[] entities = mSelectedStatus.isRetweet() ? retweetedStatus.getUserMentionEntities() : mSelectedStatus.getUserMentionEntities();
+                    if ((!isMyTweet(mSelectedStatus) && entities.length > 0)//自分のツイートでなく，誰かしらへリプライを飛ばしている
+                            && (!(entities.length == 1 && (entities[0].getId() == TwitterUtils.getCurrentAccountId() //自分だけへのリプライではない
+                            || entities[0].getId() == (mSelectedStatus.isRetweet() ? retweetedStatus.getUser().getId() : mSelectedStatus.getUser().getId())
+                    )))) {
+                        mActionAdapter.add(new ReplyAllAction(getActivity(), mSelectedStatus));
+                    }
+                }
+            }
+            if (stringResource == R.string.show_favorite_key) {
+                // favorite
+                if(PrefUtil.getBoolean(R.string.show_favorite_key, true)){
+                    mActionAdapter.add(new FavAction(getActivity(), mSelectedStatus));
+                }
+            }
+            if (stringResource == R.string.show_retweet_key) {
+                //cancel Retweet
+                // 自分がリツイートしたやつはリツイートを取り消せる
+                if (PrefUtil.getBoolean(R.string.show_retweet_key, true)) {
+                    if (mSelectedStatus.isRetweeted() ||
+                            (mSelectedStatus.isRetweet() && retweetedStatus.isRetweeted())) {
+                        mActionAdapter.add(new CancelRetweetAction(getActivity(), mSelectedStatus));
+                    }
+                    // retweet //鍵垢のツイートでない(鍵垢のRTは元のツイートをRT出来る)
+                    else if (isRetweetable(mSelectedStatus)) {
+                        mActionAdapter.add(new RetweetAction(getActivity(), mSelectedStatus));
+                    }
+                }
+            }
+            if (stringResource == R.string.show_fav_and_retweet) {
+                // Fav & Retweet
+                if (PrefUtil.getBoolean(R.string.show_fav_and_retweet, false) && isRetweetable(mSelectedStatus) && !mSelectedStatus.isFavorited()) {
+                    mActionAdapter.add(new FavAndRetweeAction(getContext(), mSelectedStatus));
+                }
+            }
+            if (stringResource == R.string.show_user_entities_order) {
+                setUserEntities(mSelectedStatus);
+            }
+            if (stringResource == R.string.show_url_entities_order) {
+                setUrlEntities(mSelectedStatus);
+            }
+            if (stringResource == R.string.show_media_entities_order) {
+                // インラインプレビューOFFのときは、ダイアログにURLを表示する
+                if (!isEnablePreview) {
+                    setMediaEntities(mSelectedStatus);
+                }
+            }
+            if (stringResource == R.string.show_hashtag_tweet) {
+                if(PrefUtil.getBoolean(R.string.show_hashtag_tweet, false)){
+                    setHashtagEntities(mSelectedStatus);
+                }
+            }
+            if (stringResource == R.string.show_hashtag_search) {
+                if(PrefUtil.getBoolean(R.string.show_hashtag_search, true)){
+                    setHashtagSearchEntities(mSelectedStatus);
+                }
+            }
+            if (stringResource == R.string.show_link_copy) {
+                // URLコピー
+                if (PrefUtil.getBoolean(R.string.show_link_copy, true)) {
+                    mActionAdapter.add(new CopyLinkAction(getContext(), mSelectedStatus));
+                }
 
-            if ((!isMyTweet(mSelectedStatus) && entities.length > 0)//自分のツイートでなく，誰かしらへリプライを飛ばしている
-                    && (!(entities.length == 1 && (entities[0].getId() == TwitterUtils.getCurrentAccountId() //自分だけへのリプライではない
-                    || entities[0].getId() == (mSelectedStatus.isRetweet() ? retweetedStatus.getUser().getId() : mSelectedStatus.getUser().getId())
-            )))) {
-                mActionAdapter.add(new ReplyAllAction(getActivity(), mSelectedStatus));
+            }
+            if (stringResource == R.string.show_share) {
+                // 共有ウィンドウを開く
+                if (PrefUtil.getBoolean(R.string.show_share, true)) {
+                    mActionAdapter.add(new ShareAction(getContext(), mSelectedStatus));
+                }
+            }
+            if (stringResource == R.string.open_twitter_app) {
+                // Twitterで開く
+                if (PrefUtil.getBoolean(R.string.open_twitter_app, true)) {
+                    mActionAdapter.add(new OpenTwitterAction(getContext(), mSelectedStatus));
+                }
             }
         }
-
-        // conversation
-        if ((mSelectedStatus.isRetweet() && (retweetedStatus.getInReplyToScreenName() != null))
-                || mSelectedStatus.getInReplyToStatusId() > 0) {
-            mActionAdapter.add(new ConversationAction(getActivity(), mSelectedStatus));
-        }
-
-        // favorite
-        if(PrefUtil.getBoolean(R.string.show_favorite_key, true)){
-            mActionAdapter.add(new FavAction(getActivity(), mSelectedStatus));
-        }
-
-        //cancel Retweet
-        // 自分がリツイートしたやつはリツイートを取り消せる
-        if (PrefUtil.getBoolean(R.string.show_retweet_key, true)) {
-            if (mSelectedStatus.isRetweeted() ||
-                    (mSelectedStatus.isRetweet() && retweetedStatus.isRetweeted())) {
-                mActionAdapter.add(new CancelRetweetAction(getActivity(), mSelectedStatus));
-            }
-            // retweet //鍵垢のツイートでない(鍵垢のRTは元のツイートをRT出来る)
-            else if (isRetweetable(mSelectedStatus)) {
-                mActionAdapter.add(new RetweetAction(getActivity(), mSelectedStatus));
-            }
-        }
-
-        // Fav & Retweet
-        if (PrefUtil.getBoolean(R.string.show_fav_and_retweet, false) && isRetweetable(mSelectedStatus) && !mSelectedStatus.isFavorited()) {
-            mActionAdapter.add(new FavAndRetweeAction(getContext(), mSelectedStatus));
-        }
-
-        //TofuBuster
-        if (AppUtil.existsTofuBuster()) {
-            mActionAdapter.add(new TofuBusterAction(getActivity(), mSelectedStatus));
-        }
-
-        setUserEntities(mSelectedStatus);
-        setUrlEntities(mSelectedStatus);
-
-        // インラインプレビューOFFのときは、ダイアログにURLを表示する
-        if (!isEnablePreview) {
-            setMediaEntities(mSelectedStatus);
-        }
-
-        if(PrefUtil.getBoolean(R.string.show_hashtag_tweet, false)){
-            setHashtagEntities(mSelectedStatus);
-        }
-
-        if(PrefUtil.getBoolean(R.string.show_hashtag_search, true)){
-            setHashtagSearchEntities(mSelectedStatus);
-        }
-
-        // URLコピー
-        if (PrefUtil.getBoolean(R.string.show_link_copy, true)) {
-            mActionAdapter.add(new CopyLinkAction(getContext(), mSelectedStatus));
-        }
-
-        // Twitterで開く
-        if (PrefUtil.getBoolean(R.string.open_twitter_app, true)) {
-            mActionAdapter.add(new OpenTwitterAction(getContext(), mSelectedStatus));
-        }
-
-        // Twitterで開く
-        if (PrefUtil.getBoolean(R.string.show_share, true)) {
-            mActionAdapter.add(new ShareAction(getContext(), mSelectedStatus));
-        }
-
         mActionAdapter.notifyDataSetChanged();
     }
 
@@ -374,4 +414,30 @@ public class StatusDialogFragment extends DialogFragment {
         if (!isResumed()) return 0;
         return super.show(transaction, tag);
     }
+
+    public static void checkDialogDetails() {
+        Gson gson = new Gson();
+        LinkedHashMap<String, Boolean> details = initialDetails;
+        String viewOrder = PrefUtil.getString(R.string.tweet_detail_setting_order, gson.toJson(new LinkedHashMap(details)));
+        Type type = new TypeToken<LinkedHashMap<String, Boolean>>(){}.getType();
+        LinkedHashMap<String, Boolean> savedHashMap = new LinkedHashMap<>(gson.fromJson(viewOrder, type));
+        // 保存されていて、既に使われていない値を削除
+        Iterator<Map.Entry<String, Boolean>> it = savedHashMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, Boolean> entry = it.next();
+            if (details.get(entry.getKey()) == null) {
+                it.remove();
+            }
+        }
+
+        // 保存されていない、新たに追加された値を追加
+        for (Map.Entry<String, Boolean> entry : details.entrySet()) {
+            if (savedHashMap.get(entry.getKey()) == null) {
+                savedHashMap.put(entry.getKey(), entry.getValue());
+            }
+        }
+        String saveData = gson.toJson(savedHashMap);
+        PrefUtil.putString(R.string.tweet_detail_setting_order, saveData);
+     }
+
 }
