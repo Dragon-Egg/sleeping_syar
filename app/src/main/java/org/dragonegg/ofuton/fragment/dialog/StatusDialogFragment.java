@@ -27,6 +27,7 @@ import org.dragonegg.ofuton.R;
 import org.dragonegg.ofuton.action.ClickActionAdapter;
 import org.dragonegg.ofuton.action.status.CancelRetweetAction;
 import org.dragonegg.ofuton.action.status.ClickAction;
+import org.dragonegg.ofuton.action.status.ConversationAction;
 import org.dragonegg.ofuton.action.status.CopyLinkAction;
 import org.dragonegg.ofuton.action.status.DestroyStatusAction;
 import org.dragonegg.ofuton.action.status.FavAction;
@@ -229,6 +230,13 @@ public class StatusDialogFragment extends DialogFragment {
                     )))) {
                         mActionAdapter.add(new ReplyAllAction(getActivity(), mSelectedStatus));
                     }
+                }
+            }
+            if (stringResource == R.string.show_conversation) {
+                // conversation
+                if ((mSelectedStatus.isRetweet() && (retweetedStatus.getInReplyToScreenName() != null))
+                        || mSelectedStatus.getInReplyToStatusId() > 0) {
+                    mActionAdapter.add(new ConversationAction(getActivity(), mSelectedStatus));
                 }
             }
             if (stringResource == R.string.show_favorite_key) {
