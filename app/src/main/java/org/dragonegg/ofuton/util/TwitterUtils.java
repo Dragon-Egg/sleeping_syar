@@ -366,16 +366,8 @@ public class TwitterUtils {
         MediaEntity[] mediaEntities = status.getMediaEntities();
         List<MediaEntity> guessedEntities = guessMediaEntities(status);
         Collections.addAll(guessedEntities, mediaEntities);
-        Collections.sort(guessedEntities, sMediaEntityComparator);
         return guessedEntities;
     }
-
-    private static final Comparator<MediaEntity> sMediaEntityComparator = new Comparator<MediaEntity>() {
-        @Override
-        public int compare(MediaEntity lhs, MediaEntity rhs) {
-            return lhs.getStart() - rhs.getStart();
-        }
-    };
 
     public static List<MediaEntity> guessMediaEntities(Status status) {
         List<MediaEntity> entities = new ArrayList<>();
