@@ -167,6 +167,31 @@ public final class AppUtil {
         return sdf.format(date);
     }
 
+    @SuppressLint("SimpleDateFormat")
+    public static String statusIdToAbsoluteTimeWithMillisecond(long id) {
+        long timestamp = id >> 22;
+        timestamp += 1288834974657L;
+        Date date = new Date(timestamp);
+
+        Calendar now = new GregorianCalendar();
+        Calendar postedAt = new GregorianCalendar();
+        postedAt.setTime(date);
+
+        int diffYear = now.get(Calendar.YEAR) - postedAt.get(Calendar.YEAR);
+        int diffDay = new GregorianCalendar().get(Calendar.DAY_OF_YEAR) - postedAt.get(Calendar.DAY_OF_YEAR);
+        SimpleDateFormat sdf;
+        if (diffYear == 0) {
+            if (diffDay == 0) {
+                sdf = new SimpleDateFormat("HH:mm:ss.SSS");
+            } else {
+                sdf = new SimpleDateFormat("M/d HH:mm:ss.SSS");
+            }
+        } else {
+            sdf = new SimpleDateFormat("yyyy/M/d HH:mm:ss.SSS");
+        }
+        return sdf.format(date);
+    }
+
     public static Spanned getColoredText(String text, EntitySupport entitySupport) {
         text = TextUtils.htmlEncode(text);// <>とかが含まれてると良くないのでhtmlEncodeする．
         text = text.replace("\n", "<br/>");

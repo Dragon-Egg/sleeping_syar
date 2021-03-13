@@ -362,13 +362,22 @@ public class TweetStatusAdapter extends BaseAdapter {
     }
 
     private static void setPostedAtTime(ViewHolder holder, Status status) {
-
         // 日付の設定
         if (status.isRetweet())
             status = status.getRetweetedStatus();
         String timeMode = PrefUtil.getString(R.string.date_display_mode, R.string.relative);
-        String time = (timeMode.equals(AppUtil.getString(R.string.relative))) ? AppUtil.dateToRelativeTime(status
-                .getCreatedAt()) : AppUtil.dateToAbsoluteTime(status.getCreatedAt());
+
+        String time;
+
+        if (timeMode == null || timeMode.equals(AppUtil.getString(R.string.relative))) {
+            time = AppUtil.dateToRelativeTime(status.getCreatedAt());
+        }else if (timeMode.equals(AppUtil.getString(R.string.absolute))) {
+            time = AppUtil.dateToAbsoluteTime(status.getCreatedAt());
+        }else {
+            time = AppUtil.statusIdToAbsoluteTimeWithMillisecond(status.getId());
+        }
+
+
         holder.postedAt.setText(time);
     }
 

@@ -113,6 +113,7 @@
     <string name="date_display_mode">時刻表記</string>
     <string name="relative">相対表記</string>
     <string name="absolute">絶対表記</string>
+    <string name="absolute_with_millisecond">絶対表記(ミリ秒)</string>
     <string name="version_info">バージョン情報</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>

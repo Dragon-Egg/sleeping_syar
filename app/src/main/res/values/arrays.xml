@@ -78,6 +78,7 @@
     <string-array name="date_display_modes">
         <item >@string/relative</item>
         <item >@string/absolute</item>
+        <item >@string/absolute_with_millisecond</item>
     </string-array>
     <string-array name="tweet_button_position_selectable">
         <item>@string/position_right</item>
